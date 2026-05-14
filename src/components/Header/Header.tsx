@@ -1,6 +1,6 @@
 "use client";
 
-import { Hammer, Menu, PhoneCall, ShoppingCart, X } from 'lucide-react'
+import { Hammer, LogIn, Menu, PhoneCall, ShoppingCart, X } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
@@ -71,6 +71,11 @@ export const Header = () => {
             <PhoneCall size={15} />
             Консультация в WhatsApp
           </a>
+
+          <Link href="/admin/login" className={styles.adminButton}>
+            <LogIn size={15} />
+            <span>Войти</span>
+          </Link>
 
           <Link href="/cart" className={styles.cartButton} aria-label="Открыть корзину">
             <ShoppingCart size={20} />

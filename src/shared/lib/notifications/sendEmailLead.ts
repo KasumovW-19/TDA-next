@@ -84,7 +84,7 @@ export const sendEmailLead = async ({
   `
 
   const { error } = await resend.emails.send({
-    from: 'TDA <onboarding@resend.dev>',
+    from: 'TDA Заявки <requests@send.tda-web.ru>',
     to: [managerEmail],
     subject: `Новая заявка с сайта TDA — ${customerName}`,
     html,

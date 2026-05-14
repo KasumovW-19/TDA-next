@@ -118,6 +118,25 @@
   background: color-mix(in srgb, #25d366 14%, #fff);
 }
 
+.adminButton {
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+  border-radius: 999px;
+  padding: 0.5rem 0.8rem;
+  font-size: 0.82rem;
+  color: var(--text-primary);
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.adminButton:hover {
+  border-color: var(--accent);
+  color: var(--accent-dark);
+  background: color-mix(in srgb, var(--accent) 7%, white);
+}
+
 .cartButton {
   width: 42px;
   height: 42px;
@@ -165,6 +184,17 @@
     display: none;
   }
 
+  .adminButton span {
+    display: none;
+  }
+
+  .adminButton {
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    justify-content: center;
+  }
+
   .nav {
     position: absolute;
     left: 1rem;
@@ -200,6 +230,11 @@
   }
 
   .consultButton {
+    padding-inline: 0.7rem;
+    font-size: 0.78rem;
+  }
+
+  .adminButton {
     padding-inline: 0.7rem;
     font-size: 0.78rem;
   }
