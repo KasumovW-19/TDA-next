@@ -272,3 +272,5 @@ export const CartPage = () => {
     </>
   )
 }
+
+export default CartPage

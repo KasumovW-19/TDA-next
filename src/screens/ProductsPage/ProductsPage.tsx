@@ -30,12 +30,13 @@ export const ProductsPage = () => {
   const searchParams = useSearchParams()
   const { addItem } = useCart()
   const preselectedCategories = useMemo(() => {
-    const directCategory = searchParams.get('category')
-    const legacyCategories = searchParams.get('categories')
+    const params = searchParams ?? new URLSearchParams()
+    const directCategory = params.get('category')
+    const legacyCategories = params.get('categories')
     const values = [
       ...(directCategory ? [directCategory] : []),
       ...(legacyCategories ? legacyCategories.split(',') : []),
-      ...searchParams.getAll('categories'),
+      ...params.getAll('categories'),
     ]
     return [...new Set(values)].filter((value): value is ProductCategory =>
       productCategories.includes(value as ProductCategory),
@@ -123,3 +124,5 @@ export const ProductsPage = () => {
     </div>
   )
 }
+
+export default ProductsPage
