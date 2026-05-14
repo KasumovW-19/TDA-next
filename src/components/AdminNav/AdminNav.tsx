@@ -37,9 +37,6 @@ export const AdminNav = () => {
             </Link>
           ))}
         </nav>
-        <Button variant="secondary" onClick={logout}>
-          Выйти
-        </Button>
       </div>
     </header>
   )

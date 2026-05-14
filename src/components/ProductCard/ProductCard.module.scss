@@ -105,6 +105,7 @@
 }
 
 .qtyButton {
+  appearance: none;
   border: 1px solid var(--border);
   background: var(--bg-surface);
   color: var(--text-primary);
@@ -143,6 +144,11 @@
   outline: none;
   border-color: var(--accent);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+.qtyButton svg {
+  color: inherit;
+  stroke: currentColor;
 }
 
 .qtyValue {

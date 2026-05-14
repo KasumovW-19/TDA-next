@@ -1,9 +1,9 @@
 "use client";
 
-import { Hammer, LogIn, Menu, PhoneCall, ShoppingCart, X } from 'lucide-react'
+import { Hammer, LogIn, LogOut, Menu, PhoneCall, ShoppingCart, X } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useCart } from '../../entities/cart/useCart'
 import styles from './Header.module.scss'
 
@@ -23,8 +23,46 @@ export const Header = () => {
   const pathname = usePathname()
   const currentPath = pathname ?? ''
   const [menuOpen, setMenuOpen] = useState(false)
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false)
   const isActiveLink = (href: string) =>
     href === '/' ? currentPath === href : currentPath === href || currentPath.startsWith(`${href}/`)
+
+  useEffect(() => {
+    let isMounted = true
+
+    const loadAdminSession = async () => {
+      try {
+        const response = await fetch('/api/admin/session', { cache: 'no-store' })
+        if (!response.ok) {
+          if (isMounted) setIsAdminAuthenticated(false)
+          return
+        }
+        const result = (await response.json()) as { authenticated?: boolean }
+        if (isMounted) {
+          setIsAdminAuthenticated(Boolean(result.authenticated))
+        }
+      } catch {
+        if (isMounted) setIsAdminAuthenticated(false)
+      }
+    }
+
+    void loadAdminSession()
+
+    return () => {
+      isMounted = false
+    }
+  }, [currentPath])
+
+  const handleAdminLogout = async () => {
+    if (!window.confirm('Точно выйти из админки?')) {
+      return
+    }
+    await fetch('/api/admin/logout', { method: 'POST' })
+    setIsAdminAuthenticated(false)
+    if (currentPath.startsWith('/admin')) {
+      window.location.href = '/admin/login'
+    }
+  }
 
   return (
     <header className={styles.header}>
@@ -72,10 +110,17 @@ export const Header = () => {
             Консультация в WhatsApp
           </a>
 
-          <Link href="/admin/login" className={styles.adminButton}>
-            <LogIn size={15} />
-            <span>Войти</span>
-          </Link>
+          {isAdminAuthenticated ? (
+            <button type="button" className={styles.adminButton} onClick={() => void handleAdminLogout()}>
+              <LogOut size={15} />
+              <span>Выйти</span>
+            </button>
+          ) : (
+            <Link href="/admin/login" className={styles.adminButton}>
+              <LogIn size={15} />
+              <span>Войти</span>
+            </Link>
+          )}
 
           <Link href="/cart" className={styles.cartButton} aria-label="Открыть корзину">
             <ShoppingCart size={20} />
