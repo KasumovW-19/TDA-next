@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/shared/lib/supabase/admin'
+import { sendTelegramLead } from '@/shared/lib/notifications/sendTelegramLead'
 
 type LeadItemPayload = {
   productId: string
@@ -123,6 +124,28 @@ export async function POST(request: Request) {
 
     if (leadItemsError) {
       throw leadItemsError
+    }
+
+    const notificationItems = leadItems.map((item) => ({
+      productName: item.product_name,
+      price: item.price,
+      quantity: item.quantity,
+    }))
+
+    const telegramResult = await Promise.allSettled([
+      sendTelegramLead({
+        leadId: lead.id,
+        customerName,
+        phone,
+        email: body.email?.trim() || null,
+        message: body.message?.trim() || null,
+        totalAmount,
+        items: notificationItems,
+      }),
+    ])
+
+    if (telegramResult[0]?.status === 'rejected') {
+      console.error('Telegram notification error:', telegramResult[0].reason)
     }
 
     return NextResponse.json({
