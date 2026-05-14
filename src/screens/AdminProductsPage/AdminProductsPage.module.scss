@@ -66,6 +66,24 @@
   padding: 0.6rem 0.72rem;
 }
 
+.uploadRow {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.uploadHint {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+.uploadPreview {
+  width: min(260px, 100%);
+  border-radius: var(--radius-s);
+  border: 1px solid var(--border);
+  object-fit: cover;
+}
+
 .filters {
   display: grid;
   grid-template-columns: 1fr 250px 250px;

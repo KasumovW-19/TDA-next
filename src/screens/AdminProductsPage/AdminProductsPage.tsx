@@ -43,6 +43,7 @@ const truncateText = (value: string | null | undefined, limit: number) => {
 export const AdminProductsPage = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [isSaving, setSaving] = useState(false)
+  const [isUploadingImage, setIsUploadingImage] = useState(false)
   const [updatingId, setUpdatingId] = useState<string | null>(null)
   const [deletingId, setDeletingId] = useState<string | null>(null)
   const [editingId, setEditingId] = useState<string | null>(null)
@@ -183,6 +184,33 @@ export const AdminProductsPage = () => {
     setSaving(false)
   }
 
+  const uploadCreateImage = async (file: File) => {
+    setIsUploadingImage(true)
+    setError(null)
+    setSuccess(null)
+
+    const formData = new FormData()
+    formData.set('file', file)
+    formData.set('productName', productForm.name || 'product')
+
+    const response = await fetch('/admin/upload-product-image', {
+      method: 'POST',
+      body: formData,
+    })
+
+    const result = (await response.json()) as { url?: string; message?: string }
+
+    if (!response.ok || !result.url) {
+      setError(result.message || 'Не удалось загрузить изображение')
+      setIsUploadingImage(false)
+      return
+    }
+
+    setProductForm((prev) => ({ ...prev, imageUrl: result.url ?? '' }))
+    setSuccess('Изображение загружено')
+    setIsUploadingImage(false)
+  }
+
   const remove = async (id: string) => {
     if (!window.confirm('Удалить товар? Действие нельзя отменить.')) {
       return
@@ -298,6 +326,26 @@ export const AdminProductsPage = () => {
             value={productForm.imageUrl}
             onChange={(event) => setProductForm((prev) => ({ ...prev, imageUrl: event.target.value }))}
           />
+          <div className={styles.uploadRow}>
+            <input
+              className={styles.formField}
+              type="file"
+              accept="image/png,image/jpeg,image/webp,image/avif"
+              onChange={(event) => {
+                const file = event.target.files?.[0]
+                if (!file) return
+                void uploadCreateImage(file)
+                event.target.value = ''
+              }}
+              disabled={isUploadingImage}
+            />
+            <span className={styles.uploadHint}>
+              {isUploadingImage ? 'Загрузка изображения...' : 'Можно загрузить JPG, PNG, WEBP или AVIF'}
+            </span>
+          </div>
+          {productForm.imageUrl ? (
+            <img className={styles.uploadPreview} src={productForm.imageUrl} alt="Превью изображения товара" />
+          ) : null}
           <select
             className={styles.formField}
             value={productForm.inStock ? 'in' : 'out'}
@@ -314,7 +362,7 @@ export const AdminProductsPage = () => {
             value={productForm.description}
             onChange={(event) => setProductForm((prev) => ({ ...prev, description: event.target.value }))}
           />
-          <Button type="submit" disabled={isSaving}>
+          <Button type="submit" disabled={isSaving || isUploadingImage}>
             {isSaving ? 'Сохраняем...' : 'Добавить товар'}
           </Button>
         </form>
