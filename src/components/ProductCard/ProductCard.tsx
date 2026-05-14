@@ -1,30 +1,22 @@
-import { AnimatePresence, motion } from 'framer-motion'
-import { Eye } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
+import { Eye, Minus, Plus } from 'lucide-react'
 import { Button } from '../Button/Button'
 import type { Product } from '../../entities/product/types'
 import { formatPrice } from '../../shared/lib/formatPrice'
+import { useCart } from '../../entities/cart/useCart'
 import styles from './ProductCard.module.scss'
 
 interface ProductCardProps {
   product: Product
-  onAddToCart: (product: Product) => void
   onQuickView: (product: Product) => void
 }
 
 const truncateText = (value: string, limit: number) =>
   value.length > limit ? `${value.slice(0, limit).trimEnd()}...` : value
 
-export const ProductCard = ({ product, onAddToCart, onQuickView }: ProductCardProps) => {
-  const [justAdded, setJustAdded] = useState(false)
-
-  useEffect(() => {
-    if (!justAdded) {
-      return
-    }
-    const timer = window.setTimeout(() => setJustAdded(false), 700)
-    return () => window.clearTimeout(timer)
-  }, [justAdded])
+export const ProductCard = ({ product, onQuickView }: ProductCardProps) => {
+  const { items, addItem, updateQuantity } = useCart()
+  const currentQuantity = items.find((item) => item.product.id === product.id)?.quantity ?? 0
 
   return (
     <motion.article
@@ -51,24 +43,33 @@ export const ProductCard = ({ product, onAddToCart, onQuickView }: ProductCardPr
         </div>
 
         <div className={styles.actions}>
-          <Button
-            disabled={!product.inStock}
-            onClick={() => {
-              onAddToCart(product)
-              setJustAdded(true)
-            }}
-          >
-            <AnimatePresence mode="wait">
-              <motion.span
-                key={justAdded ? 'added' : 'default'}
-                initial={{ opacity: 0, y: 4 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -4 }}
-              >
-                {justAdded ? 'Добавлено' : 'В корзину'}
-              </motion.span>
-            </AnimatePresence>
-          </Button>
+          {product.inStock ? (
+            currentQuantity > 0 ? (
+              <div className={styles.quantityControls}>
+                <button
+                  type="button"
+                  className={styles.qtyButton}
+                  onClick={() => updateQuantity(product.id, currentQuantity - 1)}
+                  aria-label="Уменьшить количество"
+                >
+                  <Minus size={16} />
+                </button>
+                <span className={styles.qtyValue}>{currentQuantity} в корзине</span>
+                <button
+                  type="button"
+                  className={styles.qtyButton}
+                  onClick={() => addItem(product)}
+                  aria-label="Увеличить количество"
+                >
+                  <Plus size={16} />
+                </button>
+              </div>
+            ) : (
+              <Button onClick={() => addItem(product)}>В корзину</Button>
+            )
+          ) : (
+            <Button disabled>Нет в наличии</Button>
+          )}
           <Button variant="secondary" onClick={() => onQuickView(product)} icon={<Eye size={15} />}>
             Быстрый просмотр
           </Button>

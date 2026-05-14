@@ -33,20 +33,22 @@ export const ProductQuickView = ({ product, onClose, onAddToCart }: ProductQuick
           </button>
           <div className={styles.content}>
             <img className={styles.image} src={product.image} alt={product.name} />
-            <div>
+            <div className={styles.details}>
               <p className={styles.category}>{product.category}</p>
               <h3 className={styles.name}>{product.name}</h3>
               <p className={styles.description}>{product.description}</p>
               <p className={styles.availability}>
                 {product.inStock ? 'В наличии' : 'Временно отсутствует'}
               </p>
-              <div className={styles.prices}>
-                <strong className={styles.currentPrice}>{formatPrice(product.price)}</strong>
-                <span className={styles.oldPrice}>{formatPrice(product.oldPrice)}</span>
+              <div className={styles.bottom}>
+                <div className={styles.prices}>
+                  <strong className={styles.currentPrice}>{formatPrice(product.price)}</strong>
+                  <span className={styles.oldPrice}>{formatPrice(product.oldPrice)}</span>
+                </div>
+                <Button disabled={!product.inStock} onClick={() => onAddToCart(product)}>
+                  Добавить в корзину
+                </Button>
               </div>
-              <Button disabled={!product.inStock} onClick={() => onAddToCart(product)}>
-                Добавить в корзину
-              </Button>
             </div>
           </div>
         </motion.div>

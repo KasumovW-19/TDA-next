@@ -143,7 +143,6 @@ export const ProductsPage = () => {
           ) : (
             <ProductGrid
               products={filteredProducts}
-              onAddToCart={addItem}
               onQuickView={setQuickView}
               loading={isLoading}
             />

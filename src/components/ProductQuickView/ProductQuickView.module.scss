@@ -17,6 +17,8 @@
   width: min(920px, 100%);
   padding: 1.4rem;
   position: relative;
+  max-height: min(92vh, 760px);
+  overflow: auto;
 }
 
 .close {
@@ -30,12 +32,25 @@
   position: absolute;
   top: 0.7rem;
   right: 0.7rem;
+  cursor: pointer;
+  transition: background-color var(--transition), transform var(--transition);
+}
+
+.close:hover {
+  background: #e6ded7;
+  transform: scale(1.04);
 }
 
 .content {
   display: grid;
   grid-template-columns: minmax(260px, 1fr) 1.2fr;
   gap: 1rem;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
 }
 
 .image {
@@ -63,6 +78,11 @@
 .availability {
   color: var(--success);
   font-weight: 600;
+}
+
+.bottom {
+  margin-top: auto;
+  padding-top: 0.5rem;
 }
 
 .prices {

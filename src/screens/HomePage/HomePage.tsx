@@ -199,7 +199,6 @@ export const HomePage = () => {
         ) : (
           <ProductGrid
             products={popularProducts}
-            onAddToCart={addItem}
             onQuickView={setQuickView}
             loading={productsLoading}
           />

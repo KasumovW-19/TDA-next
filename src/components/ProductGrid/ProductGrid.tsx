@@ -5,14 +5,12 @@ import styles from './ProductGrid.module.scss'
 
 interface ProductGridProps {
   products: Product[]
-  onAddToCart: (product: Product) => void
   onQuickView: (product: Product) => void
   loading?: boolean
 }
 
 export const ProductGrid = ({
   products,
-  onAddToCart,
   onQuickView,
   loading = false,
 }: ProductGridProps) => {
@@ -30,12 +28,7 @@ export const ProductGrid = ({
     <div className={styles.grid}>
       <AnimatePresence>
         {products.map((product) => (
-          <ProductCard
-            key={product.id}
-            product={product}
-            onAddToCart={onAddToCart}
-            onQuickView={onQuickView}
-          />
+          <ProductCard key={product.id} product={product} onQuickView={onQuickView} />
         ))}
       </AnimatePresence>
     </div>
