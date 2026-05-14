@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/shared/lib/supabase/admin'
 import { sendTelegramLead } from '@/shared/lib/notifications/sendTelegramLead'
+import { sendEmailLead } from '@/shared/lib/notifications/sendEmailLead'
 
 type LeadItemPayload = {
   productId: string
@@ -95,15 +96,17 @@ export async function POST(request: Request) {
       (sum, item) => sum + item.price * item.quantity,
       0,
     )
+    const email = body.email?.trim() || null
+    const message = body.message?.trim() || null
 
     const { data: lead, error: leadError } = await supabaseAdmin
       .from('leads')
       .insert({
         customer_name: customerName,
         phone,
-        email: body.email?.trim() || null,
+        email,
         contact_preference: body.contactPreference || 'any',
-        message: body.message?.trim() || null,
+        message,
         source: body.source || 'cart',
         status: 'new',
         total_amount: totalAmount,
@@ -132,20 +135,36 @@ export async function POST(request: Request) {
       quantity: item.quantity,
     }))
 
-    const telegramResult = await Promise.allSettled([
+    const notificationResults = await Promise.allSettled([
       sendTelegramLead({
         leadId: lead.id,
         customerName,
         phone,
-        email: body.email?.trim() || null,
-        message: body.message?.trim() || null,
+        email,
+        message,
+        totalAmount,
+        items: notificationItems,
+      }),
+      sendEmailLead({
+        leadId: lead.id,
+        customerName,
+        phone,
+        email,
+        message,
         totalAmount,
         items: notificationItems,
       }),
     ])
 
-    if (telegramResult[0]?.status === 'rejected') {
-      console.error('Telegram notification error:', telegramResult[0].reason)
+    const telegramResult = notificationResults[0]
+    const emailResult = notificationResults[1]
+
+    if (telegramResult?.status === 'rejected') {
+      console.error('Telegram notification error:', telegramResult.reason)
+    }
+
+    if (emailResult?.status === 'rejected') {
+      console.error('Email notification error:', emailResult.reason)
     }
 
     return NextResponse.json({

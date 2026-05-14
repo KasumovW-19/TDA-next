@@ -13,6 +13,7 @@ import styles from './CartPage.module.scss'
 
 export const CartPage = () => {
   const { items, totalItems, totalPrice, removeItem, updateQuantity, clearCart } = useCart()
+  const whatsappPhone = '79678777778'
 
   const [isCheckoutOpen, setCheckoutOpen] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
@@ -88,6 +89,25 @@ export const CartPage = () => {
       if (!response.ok || !result.success) {
         throw new Error(result.message || 'Не удалось отправить заявку')
       }
+
+      const whatsappMessage = [
+        'Здравствуйте! Оформил(а) заказ на сайте ТДА.',
+        `ФИО: ${orderForm.fullName}`,
+        `Телефон: ${orderForm.phone}`,
+        orderForm.address.trim() ? `Адрес: ${orderForm.address.trim()}` : '',
+        orderForm.comment.trim() ? `Комментарий: ${orderForm.comment.trim()}` : '',
+        '',
+        'Товары:',
+        ...items.map(
+          (item, index) =>
+            `${index + 1}. ${item.product.name} — ${item.quantity} шт. (${formatPrice(item.product.price)})`,
+        ),
+        `Итого по каталогу: ${formatPrice(totalPrice)}`,
+      ]
+        .filter(Boolean)
+        .join('\n')
+      const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(whatsappMessage)}`
+      window.open(whatsappUrl, '_blank', 'noopener,noreferrer')
 
       setSubmitSuccessMessage(result.message || 'Заказ успешно сформирован, менеджер скоро свяжется с вами')
       setIsSubmitted(true)
