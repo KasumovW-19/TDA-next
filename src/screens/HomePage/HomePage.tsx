@@ -90,7 +90,7 @@ export const HomePage = () => {
       }, {} as Record<ProductCategory, number>),
     [products],
   )
-  const whatsappPhone = '79001234567'
+  const whatsappPhone = '79678777778'
 
   const handleConsultationSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -328,7 +328,7 @@ export const HomePage = () => {
                     onChange={(event) =>
                       setConsultForm((prev) => ({ ...prev, phone: event.target.value }))
                     }
-                    placeholder="+7 (900) 123-45-67"
+                    placeholder="+7 (999) 999-99-99"
                   />
                 </label>
                 <label className={styles.consultLabel}>

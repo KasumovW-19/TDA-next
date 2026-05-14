@@ -29,8 +29,8 @@ export const Footer = () => (
 
       <div>
         <h4 className={styles.heading}>Контакты</h4>
-        <p className={styles.text}>+7 (123) 123-45-67</p>
-        <p className={styles.text}>pochta@mail.ru</p>
+        <p className={styles.text}>+7 967 877-77-78</p>
+        <p className={styles.text}>U.musalaev@mail.ru</p>
         <p className={styles.text}>г. Ойсхара, ул. улица, 111</p>
       </div>
     </div>

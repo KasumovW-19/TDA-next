@@ -308,7 +308,7 @@ export const CartPage = () => {
                         onChange={(event) =>
                           setOrderForm((prev) => ({ ...prev, phone: event.target.value }))
                         }
-                        placeholder="+7 (900) 123-45-67"
+                        placeholder="+7 (999) 999-99-99"
                       />
                     </label>
                     <label className={styles.orderLabel}>
