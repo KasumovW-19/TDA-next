@@ -1,0 +1,262 @@
+.page {
+  display: grid;
+  gap: 1rem;
+  padding-bottom: 1.5rem;
+}
+
+.section {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-m);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-s);
+  padding: 1rem;
+  display: grid;
+  gap: 0.8rem;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.6rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.sectionTitle {
+  margin: 0;
+}
+
+.countBadge {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  background: var(--bg-muted);
+}
+
+.error {
+  color: #9d2b2b;
+  background: #fff4f4;
+  border: 1px solid #f4cdcd;
+  border-radius: var(--radius-s);
+  padding: 0.55rem 0.7rem;
+  margin: 0;
+}
+
+.success {
+  color: #226f3f;
+  background: #ecf9f0;
+  border: 1px solid #cbead5;
+  border-radius: var(--radius-s);
+  padding: 0.55rem 0.7rem;
+  margin: 0;
+}
+
+.form {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.formField {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-s);
+  background: #fff;
+  padding: 0.6rem 0.72rem;
+}
+
+.filters {
+  display: grid;
+  grid-template-columns: 1fr 250px 250px;
+  gap: 0.55rem;
+}
+
+.searchField,
+.filterField {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-s);
+  background: #fff;
+  padding: 0.55rem 0.7rem;
+}
+
+.manageList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.manageItem {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.9rem;
+  align-items: flex-start;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-s);
+  padding: 0.75rem;
+  background: #fff;
+}
+
+.manageItem:hover {
+  box-shadow: var(--shadow-s);
+}
+
+.manageTitle {
+  margin: 0;
+  font-weight: 600;
+}
+
+.manageSub {
+  margin: 0.2rem 0 0;
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+}
+
+.productLine {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.productDetails {
+  min-width: 0;
+  display: grid;
+  gap: 0.3rem;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.stockBadge {
+  border-radius: 999px;
+  font-size: 0.73rem;
+  font-weight: 600;
+  padding: 0.16rem 0.5rem;
+  border: 1px solid transparent;
+}
+
+.stockIn {
+  color: #1a6b3e;
+  background: #eaf8ef;
+  border-color: #b7e4c7;
+}
+
+.stockOut {
+  color: #9a3131;
+  background: #fff1f1;
+  border-color: #f2c2c2;
+}
+
+.manageMeta {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.76rem;
+}
+
+.descriptionPreview {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 0.84rem;
+  line-height: 1.35;
+}
+
+.editFields {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.55rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-s);
+  background: #fafbfc;
+  padding: 0.55rem;
+}
+
+.fieldGroup {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.fieldLabel {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+.actions {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.deleteButton {
+  color: #b42318;
+  border-color: #f3b8b1;
+  background: #fff6f5;
+}
+
+.deleteButton:hover:not(:disabled) {
+  color: #912018;
+  border-color: #e38e83;
+  background: #ffe8e5;
+}
+
+.productThumb,
+.productThumbFallback {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: #f6f8fb;
+}
+
+.productThumb {
+  object-fit: cover;
+}
+
+.productThumbFallback {
+  display: grid;
+  place-items: center;
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+  text-align: center;
+  padding: 0.1rem;
+}
+
+.metaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.25rem;
+}
+
+.metaBadge {
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  font-size: 0.74rem;
+  color: var(--text-secondary);
+  padding: 0.15rem 0.45rem;
+}
+
+@media (max-width: 980px) {
+  .filters {
+    grid-template-columns: 1fr;
+  }
+
+  .manageItem {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}

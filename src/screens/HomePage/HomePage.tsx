@@ -12,8 +12,7 @@ import { ProductQuickView } from '../../components/ProductQuickView/ProductQuick
 import { SectionTitle } from '../../components/SectionTitle/SectionTitle'
 import { useCart } from '../../entities/cart/useCart'
 import { getProducts } from '../../entities/product/api'
-import type { Product, ProductCategory } from '../../entities/product/types'
-import { productCategories } from '../../entities/product/types'
+import type { Product } from '../../entities/product/types'
 import customSectionImage from '../../assets/custom-section-kovka.png'
 import homeHeroImage from '../../assets/home-hero-kovka.png'
 import styles from './HomePage.module.scss'
@@ -32,7 +31,7 @@ const whyUs = [
   'Консультация мастера по покраске и монтажу',
 ]
 
-const categoryDescriptions: Record<ProductCategory, string> = {
+const categoryDescriptions: Record<string, string> = {
   Ворота: 'Распашные и откатные модели для частных домов и коммерческих объектов.',
   Калитки: 'Надежные входные калитки с декоративными элементами и антикоррозийной защитой.',
   Заборы: 'Металлические секции и решения для периметра с аккуратным современным видом.',
@@ -82,12 +81,16 @@ export const HomePage = () => {
 
   const popularProducts = useMemo(() => products.filter((item) => item.isPopular).slice(0, 6), [products])
   const hasPopularProducts = popularProducts.length > 0
+  const availableCategories = useMemo(
+    () => Array.from(new Set(products.map((product) => product.category))).sort((a, b) => a.localeCompare(b)),
+    [products],
+  )
   const categoryCountMap = useMemo(
     () =>
-      products.reduce<Record<ProductCategory, number>>((acc, product) => {
+      products.reduce<Record<string, number>>((acc, product) => {
         acc[product.category] = (acc[product.category] ?? 0) + 1
         return acc
-      }, {} as Record<ProductCategory, number>),
+      }, {}),
     [products],
   )
   const whatsappPhone = '79678777778'
@@ -161,14 +164,16 @@ export const HomePage = () => {
           subtitle="Основные направления для дома, участка, забора и ворот."
         />
         <div className={styles.categories}>
-          {productCategories.map((category) => (
+          {availableCategories.map((category) => (
             <Link
               key={category}
               href={`/products?category=${encodeURIComponent(category)}`}
               className={styles.categoryCard}
             >
               <h3 className={styles.categoryTitle}>{category}</h3>
-              <p className={styles.categoryText}>{categoryDescriptions[category]}</p>
+              <p className={styles.categoryText}>
+                {categoryDescriptions[category] || 'Товары этой категории доступны в полном каталоге.'}
+              </p>
               <p className={styles.categoryMeta}>
                 {categoryCountMap[category] ?? 0} позиций в каталоге
               </p>

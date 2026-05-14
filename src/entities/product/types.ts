@@ -11,7 +11,7 @@ export const productCategories = [
   'Декор для участка',
 ] as const
 
-export type ProductCategory = (typeof productCategories)[number]
+export type ProductCategory = string
 
 export interface Product {
   id: string

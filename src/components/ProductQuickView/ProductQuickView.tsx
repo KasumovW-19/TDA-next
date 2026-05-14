@@ -40,9 +40,6 @@ export const ProductQuickView = ({ product, onClose, onAddToCart }: ProductQuick
               <p className={styles.availability}>
                 {product.inStock ? 'В наличии' : 'Временно отсутствует'}
               </p>
-              <p className={styles.rating}>
-                Рейтинг: {product.rating} ({product.reviewsCount} отзывов)
-              </p>
               <div className={styles.prices}>
                 <strong className={styles.currentPrice}>{formatPrice(product.price)}</strong>
                 <span className={styles.oldPrice}>{formatPrice(product.oldPrice)}</span>

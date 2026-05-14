@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import { Eye, Star } from 'lucide-react'
+import { Eye } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Button } from '../Button/Button'
 import type { Product } from '../../entities/product/types'
@@ -26,8 +26,6 @@ export const ProductCard = ({ product, onAddToCart, onQuickView }: ProductCardPr
     return () => window.clearTimeout(timer)
   }, [justAdded])
 
-  const discount = product.oldPrice > product.price ? product.oldPrice - product.price : 0
-
   return (
     <motion.article
       layout
@@ -37,12 +35,6 @@ export const ProductCard = ({ product, onAddToCart, onQuickView }: ProductCardPr
     >
       <div className={styles.imageWrap}>
         <img className={styles.image} src={product.image} alt={product.name} loading="lazy" />
-        <div className={styles.badges}>
-          {product.isNew && <span className={`${styles.badge} ${styles.new}`}>Новинка</span>}
-          {product.isPopular && <span className={`${styles.badge} ${styles.popular}`}>Популярное</span>}
-          {discount > 0 && <span className={`${styles.badge} ${styles.discount}`}>Скидка</span>}
-          {!product.inStock && <span className={`${styles.badge} ${styles.out}`}>Нет в наличии</span>}
-        </div>
       </div>
 
       <div className={styles.content}>
@@ -53,11 +45,6 @@ export const ProductCard = ({ product, onAddToCart, onQuickView }: ProductCardPr
         <p className={styles.desc} title={product.description}>
           {truncateText(product.description, 110)}
         </p>
-        <div className={styles.rating}>
-          <Star size={14} fill="currentColor" />
-          <span>{product.rating}</span>
-          <small className={styles.reviews}>({product.reviewsCount})</small>
-        </div>
         <div className={styles.prices}>
           <strong className={styles.currentPrice}>{formatPrice(product.price)}</strong>
           <span className={styles.oldPrice}>{formatPrice(product.oldPrice)}</span>

@@ -34,42 +34,6 @@
   transform: scale(1.03);
 }
 
-.badges {
-  position: absolute;
-  inset: 0 auto auto 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  padding: 0.8rem;
-}
-
-.badge {
-  font-size: 0.74rem;
-  border-radius: 999px;
-  padding: 0.2rem 0.55rem;
-  font-weight: 600;
-}
-
-.new {
-  background: #e7f6ff;
-  color: #17608a;
-}
-
-.popular {
-  background: #efe9ff;
-  color: #5c3da8;
-}
-
-.discount {
-  background: #fff0e6;
-  color: var(--accent-dark);
-}
-
-.out {
-  background: #fde8e8;
-  color: var(--danger);
-}
-
 .content {
   display: flex;
   flex-direction: column;
@@ -108,17 +72,6 @@
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
-}
-
-.rating {
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  color: #c58f2f;
-}
-
-.reviews {
-  color: var(--text-secondary);
 }
 
 .prices {

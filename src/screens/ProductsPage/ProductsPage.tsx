@@ -11,9 +11,8 @@ import { ProductGrid } from '../../components/ProductGrid/ProductGrid'
 import { ProductQuickView } from '../../components/ProductQuickView/ProductQuickView'
 import { SectionTitle } from '../../components/SectionTitle/SectionTitle'
 import { useCart } from '../../entities/cart/useCart'
-import { getProducts } from '../../entities/product/api'
+import { getProductCategories, getProducts } from '../../entities/product/api'
 import type { Product, ProductCategory } from '../../entities/product/types'
-import { productCategories } from '../../entities/product/types'
 import styles from './ProductsPage.module.scss'
 
 const initialFilters: ProductFiltersState = {
@@ -21,7 +20,7 @@ const initialFilters: ProductFiltersState = {
   categories: [],
   maxPrice: 500,
   inStockOnly: false,
-  sort: 'popular',
+  sort: 'price-asc',
 }
 
 export const ProductsPage = () => {
@@ -30,6 +29,7 @@ export const ProductsPage = () => {
   const [products, setProducts] = useState<Product[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [availableCategories, setAvailableCategories] = useState<ProductCategory[]>([])
   const preselectedCategories = useMemo(() => {
     const params = searchParams ?? new URLSearchParams()
     const directCategory = params.get('category')
@@ -39,9 +39,7 @@ export const ProductsPage = () => {
       ...(legacyCategories ? legacyCategories.split(',') : []),
       ...params.getAll('categories'),
     ]
-    return [...new Set(values)].filter((value): value is ProductCategory =>
-      productCategories.includes(value as ProductCategory),
-    )
+    return [...new Set(values)].filter(Boolean) as ProductCategory[]
   }, [searchParams])
   const maxAvailablePrice = useMemo(() => {
     if (products.length === 0) {
@@ -59,10 +57,17 @@ export const ProductsPage = () => {
   useEffect(() => {
     let isMounted = true
 
-    getProducts()
-      .then((items) => {
+    Promise.all([getProducts(), getProductCategories()])
+      .then(([items, categories]) => {
         if (!isMounted) return
         setProducts(items)
+        setAvailableCategories(
+          categories.length > 0
+            ? (categories as ProductCategory[])
+            : Array.from(new Set(items.map((item) => item.category))).sort((a, b) =>
+                a.localeCompare(b),
+              ),
+        )
         const loadedMaxPrice = Math.max(500, ...items.map((item) => item.price))
         setFilters((prev) => ({ ...prev, maxPrice: loadedMaxPrice }))
       })
@@ -102,12 +107,8 @@ export const ProductsPage = () => {
           return a.price - b.price
         case 'price-desc':
           return b.price - a.price
-        case 'rating':
-          return b.rating - a.rating
-        case 'new':
-          return Number(b.isNew) - Number(a.isNew)
         default:
-          return Number(b.isPopular) - Number(a.isPopular)
+          return a.price - b.price
       }
     })
   }, [filters, products])
@@ -122,7 +123,7 @@ export const ProductsPage = () => {
 
       <div className={styles.layout}>
         <ProductFilters
-          categories={[...productCategories]}
+          categories={availableCategories}
           maxAvailablePrice={maxAvailablePrice}
           value={filters}
           onChange={setFilters}

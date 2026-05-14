@@ -1,0 +1,339 @@
+.page {
+  display: grid;
+  gap: 1rem;
+  padding-bottom: 1.5rem;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.headerActions {
+  display: inline-flex;
+  gap: 0.45rem;
+}
+
+.title {
+  margin: 0;
+}
+
+.subtitle {
+  margin: 0.35rem 0 0;
+  color: var(--text-secondary);
+}
+
+.section {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-m);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-s);
+  padding: 1rem;
+  display: grid;
+  gap: 0.8rem;
+}
+
+.sectionTitle {
+  margin: 0;
+}
+
+.error {
+  color: #9d2b2b;
+  background: #fff4f4;
+  border: 1px solid #f4cdcd;
+  border-radius: var(--radius-s);
+  padding: 0.55rem 0.7rem;
+  margin: 0;
+}
+
+.success {
+  color: #226f3f;
+  background: #ecf9f0;
+  border: 1px solid #cbead5;
+  border-radius: var(--radius-s);
+  padding: 0.55rem 0.7rem;
+  margin: 0;
+}
+
+.note {
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.6rem;
+}
+
+.statCard {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-m);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-s);
+  padding: 0.7rem;
+  display: grid;
+  gap: 0.2rem;
+}
+
+.statLabel {
+  color: var(--text-secondary);
+  font-size: 0.84rem;
+}
+
+.statValue {
+  font-size: 1.2rem;
+}
+
+.tabs {
+  display: inline-flex;
+  gap: 0.4rem;
+}
+
+.tab {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0.45rem 0.8rem;
+  font-weight: 600;
+}
+
+.tabActive {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 13%, #fff);
+  color: var(--accent-dark);
+}
+
+.cardList {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-s);
+  padding: 0.7rem;
+  background: #fff;
+}
+
+.cardText {
+  margin: 0.2rem 0;
+}
+
+.cardTitle {
+  margin: 0;
+  font-weight: 700;
+}
+
+.cardSubInfo {
+  margin: 0.15rem 0 0;
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+}
+
+.cardSubInfo a {
+  color: inherit;
+}
+
+.cardHead {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.6rem;
+  align-items: flex-start;
+}
+
+.cardMainInfo {
+  display: grid;
+  gap: 0.1rem;
+}
+
+.badge {
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 0.74rem;
+  padding: 0.2rem 0.5rem;
+  white-space: nowrap;
+}
+
+.metaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.25rem;
+}
+
+.metaBadge {
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  font-size: 0.74rem;
+  color: var(--text-secondary);
+  padding: 0.15rem 0.45rem;
+}
+
+.statusBadge {
+  color: var(--accent-dark);
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--border));
+  background: color-mix(in srgb, var(--accent) 10%, white);
+}
+
+.code {
+  font-size: 0.78rem;
+}
+
+.list {
+  margin: 0.4rem 0 0;
+  padding-left: 1.1rem;
+}
+
+.listItem {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin: 0.2rem 0;
+}
+
+.details {
+  margin-top: 0.2rem;
+}
+
+.details summary {
+  cursor: pointer;
+  color: var(--accent-dark);
+  font-weight: 600;
+  font-size: 0.88rem;
+}
+
+.catalogGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+  align-items: start;
+}
+
+.form {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.formField {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-s);
+  background: #fff;
+  padding: 0.6rem 0.72rem;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.searchField {
+  width: min(420px, 100%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-s);
+  background: #fff;
+  padding: 0.55rem 0.7rem;
+}
+
+.manageList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.manageItem {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.6rem;
+  align-items: center;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-s);
+  padding: 0.55rem 0.65rem;
+}
+
+.manageTitle {
+  margin: 0;
+  font-weight: 600;
+}
+
+.manageSub {
+  margin: 0.2rem 0 0;
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+}
+
+.productLine {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.productThumb,
+.productThumbFallback {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: #f6f8fb;
+}
+
+.productThumb {
+  object-fit: cover;
+}
+
+.productThumbFallback {
+  display: grid;
+  place-items: center;
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+  text-align: center;
+  padding: 0.1rem;
+}
+
+@media (max-width: 900px) {
+  .stats {
+    grid-template-columns: 1fr;
+  }
+
+  .catalogGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .sectionHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cardHead {
+    flex-direction: column;
+  }
+
+  .listItem {
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .searchField {
+    width: 100%;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .manageItem {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

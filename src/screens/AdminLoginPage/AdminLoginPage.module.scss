@@ -1,0 +1,38 @@
+.wrap {
+  min-height: 70vh;
+  display: grid;
+  place-items: center;
+}
+
+.form {
+  width: min(420px, 100%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-m);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-s);
+  padding: 1rem;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.title {
+  margin: 0;
+}
+
+.subtitle {
+  margin: -0.1rem 0 0.2rem;
+  color: var(--text-secondary);
+}
+
+.input {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-s);
+  background: #fff;
+  padding: 0.62rem 0.72rem;
+}
+
+.error {
+  color: var(--danger);
+  margin: 0;
+}

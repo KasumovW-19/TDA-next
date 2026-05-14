@@ -16,3 +16,18 @@ export const getProducts = async (): Promise<Product[]> => {
 
   return (data as ProductRow[]).map(mapProductRowToProduct)
 }
+
+export const getProductCategories = async (): Promise<string[]> => {
+  const { data, error } = await supabaseClient
+    .from('categories')
+    .select('name')
+    .eq('is_active', true)
+    .order('sort_order', { ascending: true })
+    .order('name', { ascending: true })
+
+  if (error) {
+    throw error
+  }
+
+  return (data ?? []).map((row) => row.name).filter(Boolean)
+}

@@ -1,0 +1,188 @@
+.page {
+  display: grid;
+  gap: 1rem;
+  padding-bottom: 1.5rem;
+}
+
+.section {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-m);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-s);
+  padding: 1rem;
+  display: grid;
+  gap: 0.8rem;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.sectionTitle {
+  margin: 0;
+}
+
+.controls {
+  display: inline-flex;
+  gap: 0.45rem;
+}
+
+.searchField {
+  width: min(420px, 100%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-s);
+  background: #fff;
+  padding: 0.55rem 0.7rem;
+}
+
+.refreshButton {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0.45rem 0.8rem;
+  font-weight: 600;
+}
+
+.error {
+  color: #9d2b2b;
+  background: #fff4f4;
+  border: 1px solid #f4cdcd;
+  border-radius: var(--radius-s);
+  padding: 0.55rem 0.7rem;
+  margin: 0;
+}
+
+.note {
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.cardList {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-s);
+  padding: 0.7rem;
+  background: #fff;
+}
+
+.cardHead {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.6rem;
+  align-items: flex-start;
+}
+
+.cardMainInfo {
+  display: grid;
+  gap: 0.1rem;
+}
+
+.cardTitle {
+  margin: 0;
+  font-weight: 700;
+}
+
+.cardSubInfo {
+  margin: 0.15rem 0 0;
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+}
+
+.cardSubInfo a {
+  color: inherit;
+}
+
+.badge {
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 0.74rem;
+  padding: 0.2rem 0.5rem;
+  white-space: nowrap;
+}
+
+.metaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.25rem;
+}
+
+.metaBadge {
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  font-size: 0.74rem;
+  color: var(--text-secondary);
+  padding: 0.15rem 0.45rem;
+}
+
+.statusBadge {
+  color: var(--accent-dark);
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--border));
+  background: color-mix(in srgb, var(--accent) 10%, white);
+}
+
+.cardText {
+  margin: 0.2rem 0;
+}
+
+.code {
+  font-size: 0.78rem;
+}
+
+.details {
+  margin-top: 0.2rem;
+}
+
+.details summary {
+  cursor: pointer;
+  color: var(--accent-dark);
+  font-weight: 600;
+  font-size: 0.88rem;
+}
+
+.list {
+  margin: 0.4rem 0 0;
+  padding-left: 1.1rem;
+}
+
+.listItem {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin: 0.2rem 0;
+}
+
+@media (max-width: 900px) {
+  .sectionHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .controls {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .searchField {
+    width: 100%;
+  }
+
+  .cardHead {
+    flex-direction: column;
+  }
+
+  .listItem {
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+}
