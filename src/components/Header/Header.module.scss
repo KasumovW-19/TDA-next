@@ -1,0 +1,206 @@
+@use '../../styles/breakpoints' as *;
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(244, 246, 248, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(221, 227, 234, 0.95);
+}
+
+.inner {
+  min-height: 78px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: var(--text-primary);
+}
+
+.logoMark {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(145deg, #c6784d, #a95f37);
+  color: #fff;
+  box-shadow: 0 8px 16px rgba(186, 107, 63, 0.24);
+}
+
+.logoText {
+  display: grid;
+  line-height: 1.1;
+}
+
+.logoTitle {
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+}
+
+.logoSubtitle {
+  color: var(--text-secondary);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.nav {
+  display: flex;
+  gap: 1rem;
+}
+
+.quickInfo {
+  display: grid;
+  justify-items: end;
+  gap: 0.05rem;
+}
+
+.phone {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+  font-size: 0.92rem;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.quickInfoSchedule {
+  color: var(--text-secondary);
+  font-size: 0.72rem;
+}
+
+.link {
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+  color: var(--text-secondary);
+}
+
+.link:hover {
+  color: var(--accent-dark);
+  background: color-mix(in srgb, var(--accent) 11%, white);
+}
+
+.active {
+  background: color-mix(in srgb, var(--accent) 13%, white);
+  color: var(--accent-dark);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.consultButton {
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, #25d366 10%, #fff);
+  border-radius: 999px;
+  padding: 0.5rem 0.8rem;
+  font-size: 0.82rem;
+  color: #167b42;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.consultButton:hover {
+  border-color: #83d8a9;
+  color: #0f6c37;
+  background: color-mix(in srgb, #25d366 14%, #fff);
+}
+
+.cartButton {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--bg-surface) 70%, #eef2f6);
+  position: relative;
+  border: 1px solid var(--border);
+}
+
+.count {
+  position: absolute;
+  right: -4px;
+  top: -4px;
+  min-width: 18px;
+  height: 18px;
+  padding-inline: 0.3rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  background: var(--accent);
+  color: #fff;
+}
+
+.menuToggle {
+  display: none;
+  border: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--bg-surface) 70%, #eef2f6);
+  border: 1px solid var(--border);
+}
+
+@include mobile {
+  .logoSubtitle {
+    display: none;
+  }
+
+  .quickInfo,
+  .consultButton {
+    display: none;
+  }
+
+  .nav {
+    position: absolute;
+    left: 1rem;
+    right: 1rem;
+    top: 91%;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-m);
+    box-shadow: var(--shadow-m);
+    padding: 0.7rem;
+    flex-direction: column;
+    transform: translateY(-8px);
+    opacity: 0;
+    pointer-events: none;
+    transition: all var(--transition);
+  }
+
+  .navOpen {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .menuToggle {
+    display: grid;
+    place-items: center;
+  }
+}
+
+@media (max-width: 1024px) {
+  .quickInfo {
+    display: none;
+  }
+
+  .consultButton {
+    padding-inline: 0.7rem;
+    font-size: 0.78rem;
+  }
+}

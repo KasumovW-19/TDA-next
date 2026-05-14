@@ -1,0 +1,90 @@
+@use '../../styles/breakpoints' as *;
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(22, 25, 28, 0.6);
+  backdrop-filter: blur(3px);
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.modal {
+  background: var(--bg-surface);
+  border-radius: var(--radius-l);
+  width: min(920px, 100%);
+  padding: 1.4rem;
+  position: relative;
+}
+
+.close {
+  border: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #f0ece7;
+  position: absolute;
+  top: 0.7rem;
+  right: 0.7rem;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) 1.2fr;
+  gap: 1rem;
+}
+
+.image {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+  border-radius: var(--radius-m);
+}
+
+.name {
+  margin: 0.35rem 0 0.7rem;
+}
+
+.category,
+.rating,
+.description,
+.availability {
+  margin: 0.35rem 0;
+}
+
+.category,
+.rating,
+.description {
+  color: var(--text-secondary);
+}
+
+.availability {
+  color: var(--success);
+  font-weight: 600;
+}
+
+.prices {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin: 0.9rem 0;
+}
+
+.currentPrice {
+  font-size: 1.2rem;
+}
+
+.oldPrice {
+  color: var(--text-secondary);
+  text-decoration: line-through;
+}
+
+@include tablet {
+  .content {
+    grid-template-columns: 1fr;
+  }
+}

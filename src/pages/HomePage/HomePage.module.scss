@@ -1,0 +1,455 @@
+@use '../../styles/breakpoints' as *;
+
+.page {
+  display: grid;
+  gap: 3.1rem;
+}
+
+.hero {
+  padding-top: 0.6rem;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 1.2rem;
+  align-items: center;
+}
+
+.heroContent {
+  background: linear-gradient(175deg, #ffffff, #f3f5f8);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-l);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-s);
+}
+
+.heroVisual {
+  position: relative;
+}
+
+.heroImage {
+  border-radius: var(--radius-l);
+  object-fit: cover;
+  height: 420px;
+  width: 100%;
+  box-shadow: var(--shadow-m);
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-l);
+  background: linear-gradient(180deg, rgba(18, 26, 34, 0.02), rgba(18, 26, 34, 0.26));
+  pointer-events: none;
+}
+
+.eyebrow {
+  color: var(--accent);
+  margin: 0;
+  font-weight: 600;
+}
+
+.heroTitle {
+  margin: 0.75rem 0;
+  font-size: clamp(2rem, 2.8vw, 3rem);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.heroDescription {
+  color: var(--text-secondary);
+}
+
+.heroActions {
+  margin-top: 1.2rem;
+  display: flex;
+  gap: 0.6rem;
+}
+
+.heroMeta {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.heroMetaItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: color-mix(in srgb, var(--accent) 10%, white);
+  color: var(--accent-dark);
+  border-radius: 999px;
+  padding: 0.35rem 0.7rem;
+  font-size: 0.8rem;
+}
+
+.primaryAction,
+.secondaryAction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  font-weight: 600;
+  padding: 0.75rem 1.25rem;
+  transition: all var(--transition);
+}
+
+.primaryAction {
+  background: var(--accent);
+  color: #fff;
+}
+
+.primaryAction:hover {
+  background: var(--accent-dark);
+  color: #fff;
+}
+
+.secondaryAction {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+}
+
+.heroCardTop,
+.heroCardBottom {
+  position: absolute;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 14px;
+  background: rgba(16, 24, 32, 0.58);
+  color: #f8f9fb;
+  box-shadow: 0 14px 28px rgba(12, 18, 24, 0.2);
+}
+
+.heroCardTop {
+  top: 1rem;
+  left: 1rem;
+  width: min(280px, calc(100% - 2rem));
+  padding: 0.72rem 0.82rem;
+}
+
+.heroCardTopLabel {
+  color: #d2d9e0;
+  margin: 0 0 0.35rem;
+  font-size: 0.76rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.heroCardTopValue {
+  font-size: 0.9rem;
+  line-height: 1.35;
+}
+
+.heroCardBottom {
+  right: 1rem;
+  bottom: 1rem;
+  min-width: 170px;
+  padding: 0.72rem 0.85rem;
+}
+
+.heroCardBottomLabel {
+  display: block;
+  color: #d8dee5;
+  font-size: 0.76rem;
+}
+
+.heroCardBottomValue {
+  font-size: 1rem;
+}
+
+.section {
+  display: grid;
+}
+
+.productsFallback {
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-m);
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  padding: 1rem;
+}
+
+.categories {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.categoryCard {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-m);
+  padding: 1.05rem;
+  box-shadow: var(--shadow-s);
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+  min-height: 185px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.categoryCard:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-m);
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--border));
+}
+
+.categoryTitle {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.categoryText,
+.categoryMeta {
+  margin: 0;
+}
+
+.categoryText {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.categoryMeta {
+  margin-top: auto;
+  color: var(--metal);
+  font-size: 0.82rem;
+}
+
+.categoryAction {
+  margin-top: 0.2rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--accent-dark);
+}
+
+.advantages {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.advantageCard {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-m);
+  padding: 1rem;
+  box-shadow: var(--shadow-s);
+}
+
+.advantageTitle {
+  margin: 0.8rem 0 0.35rem;
+}
+
+.advantageText {
+  margin: 0;
+  font-size: 0.92rem;
+}
+
+.promo {
+  background: linear-gradient(135deg, #202a35, #33414f);
+  color: #f2f5f7;
+  border-radius: var(--radius-l);
+  padding: 1.4rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-end;
+}
+
+.promoTitle,
+.promoText {
+  color: inherit;
+  margin-block: 0.45rem;
+}
+
+.why div {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.whyItem {
+  margin: 0;
+  border-left: 3px solid var(--accent-soft);
+  padding-left: 0.8rem;
+}
+
+.custom {
+  background: linear-gradient(165deg, #edf1f6, #e8eef3);
+  border-radius: var(--radius-l);
+  padding: 1rem;
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 1rem;
+  align-items: center;
+}
+
+.customTitle {
+  margin: 0;
+}
+
+.customText {
+  color: var(--text-secondary);
+}
+
+.customImage {
+  border-radius: var(--radius-m);
+  height: 260px;
+  object-fit: cover;
+}
+
+.consultation {
+  border-radius: var(--radius-l);
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-s);
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.consultationTitle {
+  margin: 0;
+}
+
+.consultationText {
+  margin: 0.55rem 0 1rem;
+}
+
+.consultationButton {
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  padding: 0.78rem 1.28rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.consultModalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  background: rgba(13, 18, 24, 0.58);
+  backdrop-filter: blur(3px);
+  padding: 1rem;
+  display: grid;
+  place-items: center;
+}
+
+.consultModal {
+  width: min(560px, 100%);
+  border-radius: var(--radius-l);
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-m);
+  padding: 1.2rem;
+  position: relative;
+}
+
+.consultModalTitle {
+  margin: 0;
+}
+
+.consultModalText {
+  margin: 0.45rem 0 1rem;
+  color: var(--text-secondary);
+}
+
+.consultModalClose {
+  position: absolute;
+  top: 0.7rem;
+  right: 0.7rem;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--border);
+  background: #fff;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.consultForm {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.consultLabel {
+  margin: 0;
+  font-size: 0.86rem;
+  color: var(--text-secondary);
+  display: grid;
+  gap: 0.4rem;
+}
+
+.consultInput,
+.consultTextarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-s);
+  padding: 0.6rem 0.72rem;
+  background: #fff;
+}
+
+.consultTextarea {
+  resize: vertical;
+}
+
+@include tablet {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .heroContent {
+    order: 2;
+  }
+
+  .heroVisual {
+    order: 1;
+  }
+
+  .categories {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .advantages {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .custom {
+    grid-template-columns: 1fr;
+  }
+}
+
+@include mobile {
+  .heroActions {
+    flex-direction: column;
+  }
+
+  .heroContent {
+    padding: 1rem;
+  }
+
+  .heroImage {
+    height: 360px;
+  }
+
+  .heroCardTop,
+  .heroCardBottom {
+    position: static;
+    margin-top: 0.6rem;
+    background: rgba(16, 24, 32, 0.8);
+  }
+
+  .categories {
+    grid-template-columns: 1fr;
+  }
+
+  .advantages {
+    grid-template-columns: 1fr;
+  }
+
+  .promo {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

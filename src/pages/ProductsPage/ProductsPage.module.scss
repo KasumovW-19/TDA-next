@@ -1,0 +1,36 @@
+@use '../../styles/breakpoints' as *;
+
+.page {
+  display: grid;
+}
+
+.layout {
+  margin-top: 0.9rem;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 300px 1fr;
+  align-items: start;
+}
+
+.empty {
+  background: var(--bg-surface);
+  border-radius: var(--radius-m);
+  border: 1px dashed var(--border);
+  padding: 2.5rem 1rem;
+  text-align: center;
+}
+
+.empty h3 {
+  margin: 0;
+}
+
+.empty p {
+  margin: 0.45rem 0 0;
+  color: var(--text-secondary);
+}
+
+@include tablet {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}

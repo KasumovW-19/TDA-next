@@ -1,0 +1,365 @@
+@use '../../styles/breakpoints' as *;
+
+.page,
+.emptyPage {
+  display: grid;
+}
+
+.toolbar {
+  margin-top: 0.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.toolbarText {
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+.toolbarButton {
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--text-secondary);
+  border-radius: 999px;
+  padding: 0.45rem 0.85rem;
+  cursor: pointer;
+}
+
+.layout {
+  margin-top: 0.8rem;
+  display: grid;
+  grid-template-columns: 1.3fr 320px;
+  gap: 1rem;
+  align-items: start;
+}
+
+.items {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.item {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-m);
+  box-shadow: var(--shadow-s);
+  padding: 0.95rem;
+  display: grid;
+  grid-template-columns: 140px 1fr auto;
+  gap: 1rem;
+  align-items: center;
+}
+
+.itemImage {
+  width: 100%;
+  height: 104px;
+  object-fit: cover;
+  border-radius: var(--radius-s);
+}
+
+.itemTitle {
+  margin: 0 0 0.25rem;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.itemCategory {
+  margin: 0 0 0.5rem;
+  color: var(--text-secondary);
+}
+
+.itemPrices {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.itemOldPrice {
+  color: var(--text-secondary);
+  text-decoration: line-through;
+  font-size: 0.85rem;
+}
+
+.itemSubtotal {
+  display: block;
+  margin-top: 0.45rem;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+}
+
+.counter {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.counterButton {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: #fff;
+  cursor: pointer;
+}
+
+.counterButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.counterValue {
+  width: 32px;
+  min-width: 32px;
+  text-align: center;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.controls {
+  min-width: 140px;
+  display: grid;
+  gap: 0.55rem;
+  justify-items: end;
+}
+
+.controlsLabel {
+  margin: 0;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+}
+
+.remove {
+  border: 1px solid #f4c8c8;
+  background: #fff2f2;
+  color: var(--danger);
+  border-radius: 8px;
+  height: 32px;
+  padding: 0 0.58rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  cursor: pointer;
+  font-size: 0.78rem;
+}
+
+.removeText {
+  font-weight: 600;
+}
+
+.summary {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-m);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-s);
+  padding: 1rem 1rem 1.1rem;
+  display: grid;
+  gap: 0.8rem;
+  position: sticky;
+  top: 96px;
+}
+
+.summaryTitle {
+  margin: 0;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+.summaryRowText {
+  color: inherit;
+}
+
+.summaryValue {
+  color: var(--text-primary);
+}
+
+.discount {
+  color: var(--success) !important;
+}
+
+.totalRow {
+  margin-top: 0.25rem !important;
+  padding-top: 0.55rem;
+  border-top: 1px dashed var(--border);
+}
+
+.totalRow .summaryRowText,
+.totalRow .summaryValue {
+  color: var(--text-primary) !important;
+  font-size: 1rem;
+}
+
+.continueShopping {
+  text-align: center;
+  color: var(--accent-dark);
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+
+.summaryMeta {
+  list-style: none;
+  margin: 0.2rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.45rem;
+  color: var(--text-secondary);
+  font-size: 0.84rem;
+}
+
+.summaryMetaItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.empty {
+  border-radius: var(--radius-m);
+  border: 1px dashed var(--border);
+  padding: 2.6rem 1rem;
+  text-align: center;
+  background: var(--bg-surface);
+}
+
+.emptyTitle {
+  margin: 0.7rem 0 0;
+}
+
+.emptyText {
+  margin: 0.4rem 0 1rem;
+  color: var(--text-secondary);
+}
+
+.emptyLink {
+  color: var(--accent-dark);
+  font-weight: 600;
+}
+
+.emptyIcon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  margin-inline: auto;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--accent) 12%, white);
+  color: var(--accent-dark);
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: rgba(13, 18, 24, 0.58);
+  backdrop-filter: blur(3px);
+  padding: 1rem;
+  display: grid;
+  place-items: center;
+}
+
+.modal {
+  width: min(560px, 100%);
+  border-radius: var(--radius-l);
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-m);
+  padding: 1.2rem;
+  position: relative;
+}
+
+.modalTitle {
+  margin: 0;
+}
+
+.modalText {
+  margin: 0.45rem 0 1rem;
+  color: var(--text-secondary);
+}
+
+.modalClose {
+  position: absolute;
+  top: 0.7rem;
+  right: 0.7rem;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--border);
+  background: #fff;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.orderForm {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.orderLabel {
+  margin: 0;
+  font-size: 0.86rem;
+  color: var(--text-secondary);
+  display: grid;
+  gap: 0.4rem;
+}
+
+.orderInput,
+.orderTextarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-s);
+  padding: 0.6rem 0.72rem;
+  background: #fff;
+}
+
+.orderTextarea {
+  resize: vertical;
+}
+
+.successState {
+  text-align: center;
+  padding: 1.25rem 0.4rem 0.35rem;
+}
+
+@include tablet {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .summary {
+    position: static;
+  }
+}
+
+@include mobile {
+  .toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .item {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+    padding: 0.85rem;
+  }
+
+  .controls {
+    justify-items: stretch;
+  }
+
+  .controlsLabel {
+    font-size: 0.72rem;
+  }
+
+  .remove {
+    justify-content: center;
+  }
+}

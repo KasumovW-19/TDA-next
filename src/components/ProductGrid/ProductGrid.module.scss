@@ -1,0 +1,36 @@
+@use '../../styles/breakpoints' as *;
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.skeleton {
+  border-radius: var(--radius-m);
+  height: 360px;
+  background: linear-gradient(90deg, #ece9e1 25%, #f5f3ed 50%, #ece9e1 75%);
+  background-size: 300% 100%;
+  animation: pulse 1.2s linear infinite;
+}
+
+@keyframes pulse {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+
+@include tablet {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@include mobile {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
