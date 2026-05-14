@@ -298,6 +298,11 @@
   cursor: pointer;
 }
 
+.modalClose:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .orderForm {
   display: grid;
   gap: 0.75rem;
@@ -324,9 +329,62 @@
   resize: vertical;
 }
 
+.modalNotice {
+  margin: 0 0 0.8rem;
+  border-radius: var(--radius-s);
+  border: 1px solid #dce7f2;
+  background: #f6f9fc;
+  color: #3f5369;
+  padding: 0.55rem 0.7rem;
+  font-size: 0.88rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.modalNoticeError {
+  border-color: #f6cccc;
+  background: #fff4f4;
+  color: var(--danger);
+}
+
+.spin {
+  animation: spin 0.85s linear infinite;
+}
+
 .successState {
   text-align: center;
   padding: 1.25rem 0.4rem 0.35rem;
+}
+
+.successIcon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  margin: 0 auto 0.7rem;
+  display: grid;
+  place-items: center;
+  background: #e8f7ed;
+  color: var(--success);
+}
+
+.successActions {
+  margin-top: 0.9rem;
+  display: grid;
+  gap: 0.65rem;
+  justify-items: center;
+}
+
+.successLink {
+  color: var(--accent-dark);
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @include tablet {

@@ -121,7 +121,7 @@ const getProductImage = (name: string, fallback = 'Кованое огражде
 
 export const mockProducts: Product[] = [
   {
-    id: 1,
+    id: '1',
     name: 'Кованые ворота Верона',
     category: 'Ворота',
     price: 128000,
@@ -135,7 +135,7 @@ export const mockProducts: Product[] = [
     inStock: true,
   },
   {
-    id: 2,
+    id: '2',
     name: 'Распашные ворота Графит',
     category: 'Ворота',
     price: 114000,
@@ -149,7 +149,7 @@ export const mockProducts: Product[] = [
     inStock: true,
   },
   {
-    id: 3,
+    id: '3',
     name: 'Калитка Классика',
     category: 'Калитки',
     price: 37600,
@@ -163,7 +163,7 @@ export const mockProducts: Product[] = [
     inStock: true,
   },
   {
-    id: 4,
+    id: '4',
     name: 'Секция металлического забора',
     category: 'Заборы',
     price: 9200,
@@ -177,7 +177,7 @@ export const mockProducts: Product[] = [
     inStock: true,
   },
   {
-    id: 5,
+    id: '5',
     name: 'Перила для лестницы Модерн',
     category: 'Перила и ограждения',
     price: 33600,
@@ -191,7 +191,7 @@ export const mockProducts: Product[] = [
     inStock: true,
   },
   {
-    id: 6,
+    id: '6',
     name: 'Балконное ограждение',
     category: 'Перила и ограждения',
     price: 46700,
@@ -205,7 +205,7 @@ export const mockProducts: Product[] = [
     inStock: false,
   },
   {
-    id: 7,
+    id: '7',
     name: 'Козырек кованый над входом',
     category: 'Кованые изделия',
     price: 54600,
@@ -219,7 +219,7 @@ export const mockProducts: Product[] = [
     inStock: true,
   },
   {
-    id: 8,
+    id: '8',
     name: 'Кованая скамья для сада',
     category: 'Декор для участка',
     price: 28700,
@@ -233,7 +233,7 @@ export const mockProducts: Product[] = [
     inStock: true,
   },
   {
-    id: 9,
+    id: '9',
     name: 'Арка садовая металлическая',
     category: 'Декор для участка',
     price: 17300,
@@ -247,7 +247,7 @@ export const mockProducts: Product[] = [
     inStock: true,
   },
   {
-    id: 10,
+    id: '10',
     name: 'Декоративная кованая решетка',
     category: 'Кованые изделия',
     price: 24700,
@@ -261,7 +261,7 @@ export const mockProducts: Product[] = [
     inStock: true,
   },
   {
-    id: 11,
+    id: '11',
     name: 'Краска по металлу Черная матовая',
     category: 'Краски по металлу',
     price: 1890,
@@ -275,7 +275,7 @@ export const mockProducts: Product[] = [
     inStock: true,
   },
   {
-    id: 12,
+    id: '12'    ,
     name: 'Краска по металлу Бронзовый блеск',
     category: 'Краски по металлу',
     price: 2140,
@@ -289,7 +289,7 @@ export const mockProducts: Product[] = [
     inStock: true,
   },
   {
-    id: 13,
+    id: '13',
     name: 'Грунтовка антикоррозийная',
     category: 'Грунтовки',
     price: 1390,
@@ -303,7 +303,7 @@ export const mockProducts: Product[] = [
     inStock: true,
   },
   {
-    id: 14,
+    id: '14',
     name: 'Эмаль для ворот и заборов UltraCoat',
     category: 'Краски по металлу',
     price: 2590,
@@ -317,7 +317,7 @@ export const mockProducts: Product[] = [
     inStock: true,
   },
   {
-    id: 15,
+    id: '15',
     name: 'Петли усиленные для ворот HeavyLine',
     category: 'Фурнитура',
     price: 990,
@@ -331,7 +331,7 @@ export const mockProducts: Product[] = [
     inStock: true,
   },
   {
-    id: 16,
+    id: '16',
     name: 'Замок и защелка для калитки SecureIron',
     category: 'Фурнитура',
     price: 2750,
@@ -345,7 +345,7 @@ export const mockProducts: Product[] = [
     inStock: true,
   },
   {
-    id: 17,
+    id: '17',
     name: 'Ручка металлическая декоративная Arc',
     category: 'Фурнитура',
     price: 1350,
@@ -359,7 +359,7 @@ export const mockProducts: Product[] = [
     inStock: true,
   },
   {
-    id: 18,
+    id: '18',
     name: 'Кованые пики и навершия для забора',
     category: 'Элементы ковки',
     price: 520,
@@ -373,7 +373,7 @@ export const mockProducts: Product[] = [
     inStock: true,
   },
   {
-    id: 19,
+    id: '19',
     name: 'Декоративные кованые листья',
     category: 'Элементы ковки',
     price: 340,
@@ -387,7 +387,7 @@ export const mockProducts: Product[] = [
     inStock: true,
   },
   {
-    id: 20,
+    id: '20',
     name: 'Кованая розетка',
     category: 'Элементы ковки',
     price: 780,
@@ -401,7 +401,7 @@ export const mockProducts: Product[] = [
     inStock: true,
   },
   {
-    id: 21,
+    id: '21',
     name: 'Балясина металлическая',
     category: 'Элементы ковки',
     price: 640,
@@ -415,7 +415,7 @@ export const mockProducts: Product[] = [
     inStock: true,
   },
   {
-    id: 22,
+    id: '22',
     name: 'Кованый завиток',
     category: 'Элементы ковки',
     price: 430,
@@ -429,7 +429,7 @@ export const mockProducts: Product[] = [
     inStock: true,
   },
   {
-    id: 23,
+    id: '23',
     name: 'Комплект фурнитуры для распашных ворот',
     category: 'Фурнитура',
     price: 12600,
@@ -443,7 +443,7 @@ export const mockProducts: Product[] = [
     inStock: true,
   },
   {
-    id: 24,
+    id: '24',
     name: 'Декоративная вставка для ковки',
     category: 'Элементы ковки',
     price: 590,

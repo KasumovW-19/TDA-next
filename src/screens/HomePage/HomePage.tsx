@@ -5,13 +5,13 @@ import { X } from 'lucide-react'
 import { CheckCircle2, PaintRoller, ShieldCheck, Star, Truck } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useMemo, useState, type FormEvent } from 'react'
+import { useEffect, useMemo, useState, type FormEvent } from 'react'
 import { Button } from '../../components/Button/Button'
 import { ProductGrid } from '../../components/ProductGrid/ProductGrid'
 import { ProductQuickView } from '../../components/ProductQuickView/ProductQuickView'
 import { SectionTitle } from '../../components/SectionTitle/SectionTitle'
-import { mockProducts } from '../../data/mockProducts'
 import { useCart } from '../../entities/cart/useCart'
+import { getProducts } from '../../entities/product/api'
 import type { Product, ProductCategory } from '../../entities/product/types'
 import { productCategories } from '../../entities/product/types'
 import customSectionImage from '../../assets/custom-section-kovka.png'
@@ -47,6 +47,9 @@ const categoryDescriptions: Record<ProductCategory, string> = {
 
 export const HomePage = () => {
   const { addItem } = useCart()
+  const [products, setProducts] = useState<Product[]>([])
+  const [productsLoading, setProductsLoading] = useState(true)
+  const [productsError, setProductsError] = useState<string | null>(null)
   const [quickView, setQuickView] = useState<Product | null>(null)
   const [isConsultationOpen, setConsultationOpen] = useState(false)
   const [consultForm, setConsultForm] = useState({
@@ -55,18 +58,37 @@ export const HomePage = () => {
     comment: '',
   })
 
-  const popularProducts = useMemo(
-    () => mockProducts.filter((item) => item.isPopular).slice(0, 6),
-    [],
-  )
+  useEffect(() => {
+    let isMounted = true
+
+    getProducts()
+      .then((items) => {
+        if (!isMounted) return
+        setProducts(items)
+      })
+      .catch(() => {
+        if (!isMounted) return
+        setProductsError('Не удалось загрузить товары')
+      })
+      .finally(() => {
+        if (!isMounted) return
+        setProductsLoading(false)
+      })
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
+  const popularProducts = useMemo(() => products.filter((item) => item.isPopular).slice(0, 6), [products])
   const hasPopularProducts = popularProducts.length > 0
   const categoryCountMap = useMemo(
     () =>
-      mockProducts.reduce<Record<ProductCategory, number>>((acc, product) => {
+      products.reduce<Record<ProductCategory, number>>((acc, product) => {
         acc[product.category] = (acc[product.category] ?? 0) + 1
         return acc
       }, {} as Record<ProductCategory, number>),
-    [],
+    [products],
   )
   const whatsappPhone = '79001234567'
 
@@ -162,18 +184,20 @@ export const HomePage = () => {
           subtitle="Проверенные позиции с высоким рейтингом покупателей."
           action={<Link href="/products">Смотреть весь каталог</Link>}
         />
-        {hasPopularProducts ? (
-          <ProductGrid
-            products={popularProducts}
-            onAddToCart={addItem}
-            onQuickView={setQuickView}
-            loading={false}
-          />
-        ) : (
+        {productsError ? (
+          <div className={styles.productsFallback}>{productsError}</div>
+        ) : !productsLoading && !hasPopularProducts ? (
           <div className={styles.productsFallback}>
             Популярные товары временно недоступны. Перейдите в каталог, чтобы посмотреть весь
             ассортимент.
           </div>
+        ) : (
+          <ProductGrid
+            products={popularProducts}
+            onAddToCart={addItem}
+            onQuickView={setQuickView}
+            loading={productsLoading}
+          />
         )}
       </section>
 

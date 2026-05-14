@@ -12,8 +12,8 @@ interface CartState {
 type CartAction =
   | { type: 'hydrate'; items: CartItem[] }
   | { type: 'add'; product: Product }
-  | { type: 'remove'; productId: number }
-  | { type: 'updateQuantity'; productId: number; quantity: number }
+  | { type: 'remove'; productId: string }
+  | { type: 'updateQuantity'; productId: string; quantity: number }
   | { type: 'clear' }
 
 const initialCartState: CartState = {
@@ -72,9 +72,9 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   const addItem = (product: Product) => dispatch({ type: 'add', product })
 
-  const removeItem = (productId: number) => dispatch({ type: 'remove', productId })
+  const removeItem = (productId: string) => dispatch({ type: 'remove', productId })
 
-  const updateQuantity = (productId: number, quantity: number) =>
+  const updateQuantity = (productId: string, quantity: number) =>
     dispatch({ type: 'updateQuantity', productId, quantity })
 
   const clearCart = () => dispatch({ type: 'clear' })

@@ -14,7 +14,7 @@ export const productCategories = [
 export type ProductCategory = (typeof productCategories)[number]
 
 export interface Product {
-  id: number
+  id: string
   name: string
   category: ProductCategory
   price: number

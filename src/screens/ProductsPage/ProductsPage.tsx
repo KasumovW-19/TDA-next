@@ -10,18 +10,16 @@ import {
 import { ProductGrid } from '../../components/ProductGrid/ProductGrid'
 import { ProductQuickView } from '../../components/ProductQuickView/ProductQuickView'
 import { SectionTitle } from '../../components/SectionTitle/SectionTitle'
-import { mockProducts } from '../../data/mockProducts'
 import { useCart } from '../../entities/cart/useCart'
+import { getProducts } from '../../entities/product/api'
 import type { Product, ProductCategory } from '../../entities/product/types'
 import { productCategories } from '../../entities/product/types'
 import styles from './ProductsPage.module.scss'
 
-const maxAvailablePrice = Math.max(...mockProducts.map((item) => item.price))
-
-const baseFilters: ProductFiltersState = {
+const initialFilters: ProductFiltersState = {
   query: '',
   categories: [],
-  maxPrice: maxAvailablePrice,
+  maxPrice: 500,
   inStockOnly: false,
   sort: 'popular',
 }
@@ -29,6 +27,9 @@ const baseFilters: ProductFiltersState = {
 export const ProductsPage = () => {
   const searchParams = useSearchParams()
   const { addItem } = useCart()
+  const [products, setProducts] = useState<Product[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const preselectedCategories = useMemo(() => {
     const params = searchParams ?? new URLSearchParams()
     const directCategory = params.get('category')
@@ -42,23 +43,47 @@ export const ProductsPage = () => {
       productCategories.includes(value as ProductCategory),
     )
   }, [searchParams])
+  const maxAvailablePrice = useMemo(() => {
+    if (products.length === 0) {
+      return 500
+    }
+    return Math.max(500, ...products.map((item) => item.price))
+  }, [products])
 
   const [filters, setFilters] = useState<ProductFiltersState>(() => ({
-    ...baseFilters,
+    ...initialFilters,
     categories: preselectedCategories,
   }))
   const [quickView, setQuickView] = useState<Product | null>(null)
-  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const timer = window.setTimeout(() => setLoading(false), 750)
-    return () => window.clearTimeout(timer)
+    let isMounted = true
+
+    getProducts()
+      .then((items) => {
+        if (!isMounted) return
+        setProducts(items)
+        const loadedMaxPrice = Math.max(500, ...items.map((item) => item.price))
+        setFilters((prev) => ({ ...prev, maxPrice: loadedMaxPrice }))
+      })
+      .catch(() => {
+        if (!isMounted) return
+        setError('Не удалось загрузить товары')
+      })
+      .finally(() => {
+        if (!isMounted) return
+        setIsLoading(false)
+      })
+
+    return () => {
+      isMounted = false
+    }
   }, [])
 
   const filteredProducts = useMemo(() => {
     const search = filters.query.trim().toLowerCase()
 
-    const prepared = mockProducts.filter((product) => {
+    const prepared = products.filter((product) => {
       const matchesSearch =
         search.length === 0 ||
         product.name.toLowerCase().includes(search) ||
@@ -85,7 +110,7 @@ export const ProductsPage = () => {
           return Number(b.isPopular) - Number(a.isPopular)
       }
     })
-  }, [filters])
+  }, [filters, products])
 
   return (
     <div className={`container ${styles.page}`}>
@@ -104,7 +129,12 @@ export const ProductsPage = () => {
         />
 
         <section>
-          {!loading && filteredProducts.length === 0 ? (
+          {error ? (
+            <div className={styles.empty}>
+              <h3>Ошибка загрузки</h3>
+              <p>{error}</p>
+            </div>
+          ) : !isLoading && filteredProducts.length === 0 ? (
             <div className={styles.empty}>
               <h3>Ничего не найдено</h3>
               <p>Попробуйте изменить фильтры, диапазон цены или текст поиска.</p>
@@ -114,7 +144,7 @@ export const ProductsPage = () => {
               products={filteredProducts}
               onAddToCart={addItem}
               onQuickView={setQuickView}
-              loading={loading}
+              loading={isLoading}
             />
           )}
         </section>

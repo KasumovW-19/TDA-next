@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from 'framer-motion'
-import { ShieldCheck, ShoppingCart, Trash2, Truck, X } from 'lucide-react'
+import { AlertCircle, CheckCircle2, Loader2, ShieldCheck, ShoppingCart, Trash2, Truck, X } from 'lucide-react'
 import Link from 'next/link'
 import { useState, type FormEvent } from 'react'
 import { Breadcrumbs } from '../../components/Breadcrumbs/Breadcrumbs'
@@ -13,14 +13,19 @@ import styles from './CartPage.module.scss'
 
 export const CartPage = () => {
   const { items, totalItems, totalPrice, removeItem, updateQuantity, clearCart } = useCart()
+
   const [isCheckoutOpen, setCheckoutOpen] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [isSubmitting, setSubmitting] = useState(false)
+  const [submitSuccessMessage, setSubmitSuccessMessage] = useState<string | null>(null)
+  const [submitError, setSubmitError] = useState<string | null>(null)
   const [orderForm, setOrderForm] = useState({
     fullName: '',
     phone: '',
     address: '',
     comment: '',
   })
+
   const oldTotalPrice = items.reduce((sum, item) => sum + item.product.oldPrice * item.quantity, 0)
   const discount = Math.max(0, oldTotalPrice - totalPrice)
   const deliveryPrice = totalPrice >= 15000 ? 0 : 1200
@@ -28,17 +33,79 @@ export const CartPage = () => {
 
   const handleOpenCheckout = () => {
     setIsSubmitted(false)
+    setSubmitSuccessMessage(null)
+    setSubmitError(null)
     setCheckoutOpen(true)
   }
 
-  const handleCloseCheckout = () => setCheckoutOpen(false)
-
-  const handleSubmitOrder = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    setIsSubmitted(true)
+  const handleCloseCheckout = () => {
+    if (isSubmitting) {
+      return
+    }
+    setCheckoutOpen(false)
   }
 
-  if (items.length === 0) {
+  const handleSubmitOrder = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
+    if (items.length === 0) return
+
+    setSubmitting(true)
+    setSubmitSuccessMessage(null)
+    setSubmitError(null)
+
+    try {
+      const message = [
+        orderForm.address.trim() ? `Адрес: ${orderForm.address.trim()}` : '',
+        orderForm.comment.trim() ? `Комментарий: ${orderForm.comment.trim()}` : '',
+      ]
+        .filter(Boolean)
+        .join('\n')
+
+      const response = await fetch('/api/leads', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          customerName: orderForm.fullName,
+          phone: orderForm.phone,
+          contactPreference: 'whatsapp',
+          message,
+          source: 'cart',
+          items: items.map((item) => ({
+            productId: item.product.id,
+            quantity: item.quantity,
+          })),
+        }),
+      })
+
+      const result = (await response.json()) as {
+        success?: boolean
+        message?: string
+      }
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || 'Не удалось отправить заявку')
+      }
+
+      setSubmitSuccessMessage(result.message || 'Заказ успешно сформирован, менеджер скоро свяжется с вами')
+      setIsSubmitted(true)
+      clearCart()
+      setOrderForm({
+        fullName: '',
+        phone: '',
+        address: '',
+        comment: '',
+      })
+    } catch (error) {
+      setSubmitError(error instanceof Error ? error.message : 'Не удалось отправить заявку')
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  if (items.length === 0 && !isCheckoutOpen) {
     return (
       <div className={`container ${styles.emptyPage}`}>
         <Breadcrumbs items={[{ label: 'Главная', href: '/' }, { label: 'Корзина' }]} />
@@ -183,7 +250,12 @@ export const CartPage = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={handleCloseCheckout}
+            onClick={() => {
+              if (isSubmitting) {
+                return
+              }
+              handleCloseCheckout()
+            }}
           >
             <motion.div
               className={styles.modal}
@@ -192,7 +264,13 @@ export const CartPage = () => {
               exit={{ opacity: 0, y: 18 }}
               onClick={(event) => event.stopPropagation()}
             >
-              <button type="button" className={styles.modalClose} onClick={handleCloseCheckout}>
+              <button
+                type="button"
+                className={styles.modalClose}
+                onClick={handleCloseCheckout}
+                disabled={isSubmitting}
+                aria-label="Закрыть модальное окно"
+              >
                 <X size={18} />
               </button>
               {!isSubmitted ? (
@@ -201,6 +279,12 @@ export const CartPage = () => {
                   <p className={styles.modalText}>
                     Заполните контактные данные, и мы свяжемся с вами для подтверждения.
                   </p>
+                  {isSubmitting && (
+                    <p className={styles.modalNotice}>
+                      <Loader2 size={16} className={styles.spin} />
+                      Отправляем заявку, пожалуйста подождите...
+                    </p>
+                  )}
                   <form className={styles.orderForm} onSubmit={handleSubmitOrder}>
                     <label className={styles.orderLabel}>
                       ФИО
@@ -251,18 +335,33 @@ export const CartPage = () => {
                         placeholder="Удобное время звонка, детали доставки"
                       />
                     </label>
-                    <Button size="l" type="submit">
-                      Подтвердить заказ
+                    {submitError && (
+                      <p className={`${styles.modalNotice} ${styles.modalNoticeError}`}>
+                        <AlertCircle size={16} />
+                        {submitError}
+                      </p>
+                    )}
+                    <Button size="l" type="submit" disabled={isSubmitting}>
+                      {isSubmitting ? 'Отправка...' : 'Подтвердить заказ'}
                     </Button>
                   </form>
                 </>
               ) : (
                 <div className={styles.successState}>
+                  <span className={styles.successIcon} aria-hidden>
+                    <CheckCircle2 size={26} />
+                  </span>
                   <h3 className={styles.modalTitle}>Заявка отправлена</h3>
                   <p className={styles.modalText}>
-                    Спасибо! Мы получили ваш заказ и скоро свяжемся с вами для подтверждения.
+                    {submitSuccessMessage ||
+                      'Заказ успешно сформирован, менеджер скоро свяжется с вами.'}
                   </p>
-                  <Button onClick={handleCloseCheckout}>Закрыть</Button>
+                  <div className={styles.successActions}>
+                    <Button onClick={handleCloseCheckout}>Понятно</Button>
+                    <Link className={styles.successLink} href="/products" onClick={handleCloseCheckout}>
+                      Вернуться в каталог
+                    </Link>
+                  </div>
                 </div>
               )}
             </motion.div>
