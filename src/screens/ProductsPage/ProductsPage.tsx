@@ -11,7 +11,8 @@ import { ProductGrid } from '../../components/ProductGrid/ProductGrid'
 import { ProductQuickView } from '../../components/ProductQuickView/ProductQuickView'
 import { SectionTitle } from '../../components/SectionTitle/SectionTitle'
 import { useCart } from '../../entities/cart/useCart'
-import { getProductCategories, getProducts } from '../../entities/product/api'
+import { getCategories } from '../../entities/category/api'
+import { getProducts } from '../../entities/product/api'
 import type { Product, ProductCategory } from '../../entities/product/types'
 import styles from './ProductsPage.module.scss'
 
@@ -57,13 +58,13 @@ export const ProductsPage = () => {
   useEffect(() => {
     let isMounted = true
 
-    Promise.all([getProducts(), getProductCategories()])
+    Promise.all([getProducts(), getCategories()])
       .then(([items, categories]) => {
         if (!isMounted) return
         setProducts(items)
         setAvailableCategories(
           categories.length > 0
-            ? (categories as ProductCategory[])
+            ? categories.map((category) => category.name as ProductCategory)
             : Array.from(new Set(items.map((item) => item.category))).sort((a, b) =>
                 a.localeCompare(b),
               ),
