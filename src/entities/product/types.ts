@@ -17,6 +17,9 @@ export interface Product {
   id: string
   name: string
   category: ProductCategory
+  size: string
+  productCode: string
+  createdAt?: string
   price: number
   oldPrice: number
   rating: number

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState, type FormEvent } from 'react'
+import { X } from 'lucide-react'
 import { Button } from '@/components/Button/Button'
 import styles from './AdminPage.module.scss'
 
@@ -37,6 +38,8 @@ type Product = {
   slug: string
   category: string
   category_id: string | null
+  size: string | null
+  product_code: string | null
   price: number | null
   old_price: number | null
   in_stock: boolean
@@ -77,12 +80,13 @@ export const AdminPage = () => {
   const [deletingCategoryId, setDeletingCategoryId] = useState<string | null>(null)
   const [deletingProductId, setDeletingProductId] = useState<string | null>(null)
   const [lastUpdatedAt, setLastUpdatedAt] = useState<string | null>(null)
-  const [categoryForm, setCategoryForm] = useState({ name: '', slug: '', description: '' })
+  const [categoryForm, setCategoryForm] = useState({ name: '', description: '' })
   const [productForm, setProductForm] = useState({
     name: '',
-    slug: '',
     categoryId: '',
     description: '',
+    size: '',
+    productCode: '',
     imageUrl: '',
     price: '',
     oldPrice: '',
@@ -125,13 +129,6 @@ export const AdminPage = () => {
     await fetch('/api/admin/logout', { method: 'POST' })
     window.location.href = '/admin/login'
   }
-
-  const makeSlug = (value: string) =>
-    value
-      .toLowerCase()
-      .trim()
-      .replace(/\s+/g, '-')
-      .replace(/[^a-z0-9а-яё-]/gi, '')
 
   const categoryOptions = useMemo(
     () => categories.map((category) => ({ id: category.id, name: category.name })),
@@ -193,7 +190,7 @@ export const AdminPage = () => {
       return
     }
 
-    setCategoryForm({ name: '', slug: '', description: '' })
+    setCategoryForm({ name: '', description: '' })
     await loadData()
     setSuccess('Категория успешно добавлена')
     setSavingCategory(false)
@@ -234,9 +231,10 @@ export const AdminPage = () => {
 
     setProductForm({
       name: '',
-      slug: '',
       categoryId: '',
       description: '',
+      size: '',
+      productCode: '',
       imageUrl: '',
       price: '',
       oldPrice: '',
@@ -412,25 +410,7 @@ export const AdminPage = () => {
                 className={styles.formField}
                 placeholder="Название категории"
                 value={categoryForm.name}
-                onChange={(event) =>
-                  setCategoryForm((prev) => {
-                    const name = event.target.value
-                    return {
-                      ...prev,
-                      name,
-                      slug: prev.slug ? prev.slug : makeSlug(name),
-                    }
-                  })
-                }
-                required
-              />
-              <input
-                className={styles.formField}
-                placeholder="Slug (kovanye-izdeliya)"
-                value={categoryForm.slug}
-                onChange={(event) =>
-                  setCategoryForm((prev) => ({ ...prev, slug: makeSlug(event.target.value) }))
-                }
+                onChange={(event) => setCategoryForm((prev) => ({ ...prev, name: event.target.value }))}
                 required
               />
               <input
@@ -448,18 +428,20 @@ export const AdminPage = () => {
 
             <ul className={styles.manageList}>
               {filteredCategories.map((category) => (
-                <li key={category.id} className={styles.manageItem}>
-                  <div>
+                <li key={category.id} className={`${styles.manageItem} ${styles.categoryTile}`}>
+                  <div className={styles.categoryInfo}>
                     <p className={styles.manageTitle}>{category.name}</p>
-                    <p className={styles.manageSub}>/{category.slug}</p>
+                    <p className={styles.manageSub}>{category.description || 'Описание не добавлено'}</p>
                   </div>
-                  <Button
-                    variant="ghost"
+                  <button
+                    type="button"
+                    className={styles.tileDeleteButton}
                     onClick={() => void removeCategory(category.id)}
                     disabled={deletingCategoryId === category.id}
+                    aria-label="Удалить категорию"
                   >
-                    {deletingCategoryId === category.id ? 'Удаление...' : 'Удалить'}
-                  </Button>
+                    <X size={16} />
+                  </button>
                 </li>
               ))}
               {!isLoading && filteredCategories.length === 0 && (
@@ -483,22 +465,7 @@ export const AdminPage = () => {
                 className={styles.formField}
                 placeholder="Название товара"
                 value={productForm.name}
-                onChange={(event) =>
-                  setProductForm((prev) => ({
-                    ...prev,
-                    name: event.target.value,
-                    slug: prev.slug ? prev.slug : makeSlug(event.target.value),
-                  }))
-                }
-                required
-              />
-              <input
-                className={styles.formField}
-                placeholder="Slug"
-                value={productForm.slug}
-                onChange={(event) =>
-                  setProductForm((prev) => ({ ...prev, slug: makeSlug(event.target.value) }))
-                }
+                onChange={(event) => setProductForm((prev) => ({ ...prev, name: event.target.value }))}
                 required
               />
               <select
@@ -545,6 +512,20 @@ export const AdminPage = () => {
                   setProductForm((prev) => ({ ...prev, imageUrl: event.target.value }))
                 }
               />
+              <input
+                className={styles.formField}
+                placeholder="Код товара"
+                value={productForm.productCode}
+                onChange={(event) =>
+                  setProductForm((prev) => ({ ...prev, productCode: event.target.value }))
+                }
+              />
+              <input
+                className={styles.formField}
+                placeholder="Размер"
+                value={productForm.size}
+                onChange={(event) => setProductForm((prev) => ({ ...prev, size: event.target.value }))}
+              />
               <textarea
                 className={styles.formField}
                 placeholder="Описание"
@@ -572,6 +553,9 @@ export const AdminPage = () => {
                       <p className={styles.manageSub}>
                         {product.category} · {formatMoney(product.price)}
                         {product.old_price ? ` (было ${formatMoney(product.old_price)})` : ''}
+                      </p>
+                      <p className={styles.manageSub}>
+                        Код: {product.product_code || '—'} · Размер: {product.size || '—'}
                       </p>
                     </div>
                   </div>

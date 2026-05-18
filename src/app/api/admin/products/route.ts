@@ -8,6 +8,8 @@ type ProductPayload = {
   category?: string
   categoryId?: string
   description?: string
+  size?: string
+  productCode?: string
   imageUrl?: string
   price?: number
   oldPrice?: number
@@ -44,7 +46,7 @@ export async function GET() {
   const { data, error } = await supabaseAdmin
     .from('products')
     .select(
-      'id, name, slug, category, category_id, description, price, old_price, in_stock, is_popular, is_new, image_url, is_active, created_at',
+      'id, name, slug, category, category_id, description, size, product_code, price, old_price, in_stock, is_popular, is_new, image_url, is_active, created_at',
     )
     .order('created_at', { ascending: false })
     .limit(200)
@@ -98,6 +100,8 @@ export async function POST(request: Request) {
       category_id: categoryRow.id,
       description: body.description?.trim() || null,
       short_description: body.description?.trim() || null,
+      size: body.size?.trim() || '',
+      product_code: body.productCode?.trim() || '',
       image_url: body.imageUrl?.trim() || null,
       price,
       old_price: oldPrice > 0 ? oldPrice : price,
@@ -109,7 +113,7 @@ export async function POST(request: Request) {
       reviews_count: 0,
     })
     .select(
-      'id, name, slug, category, category_id, description, price, old_price, in_stock, is_popular, is_new, image_url, is_active, created_at',
+      'id, name, slug, category, category_id, description, size, product_code, price, old_price, in_stock, is_popular, is_new, image_url, is_active, created_at',
     )
     .single()
 

@@ -17,6 +17,8 @@ type Product = {
   category: string
   category_id: string | null
   description: string | null
+  size: string | null
+  product_code: string | null
   price: number | null
   old_price: number | null
   in_stock: boolean
@@ -58,6 +60,8 @@ export const AdminProductsPage = () => {
     name: '',
     categoryId: '',
     description: '',
+    size: '',
+    productCode: '',
     imageUrl: '',
     price: '',
     oldPrice: '',
@@ -67,6 +71,8 @@ export const AdminProductsPage = () => {
     price: '',
     description: '',
     inStock: true,
+    size: '',
+    productCode: '',
   })
 
   const makeSlug = (value: string) =>
@@ -114,7 +120,10 @@ export const AdminProductsPage = () => {
     return products.filter((product) => {
       const queryMatch =
         normalized.length === 0 ||
-        [product.name, product.slug, product.category].join(' ').toLowerCase().includes(normalized)
+        [product.name, product.slug, product.category, product.product_code, product.size]
+          .join(' ')
+          .toLowerCase()
+          .includes(normalized)
       const categoryMatch = categoryFilter === 'all' || product.category_id === categoryFilter
       const stockMatch =
         stockFilter === 'all' ||
@@ -134,6 +143,8 @@ export const AdminProductsPage = () => {
     !editingProduct ||
     (editingProduct.price ?? 0) === normalizedEditPrice &&
       (editingProduct.description ?? '').trim() === editForm.description.trim() &&
+      (editingProduct.size ?? '').trim() === editForm.size.trim() &&
+      (editingProduct.product_code ?? '').trim() === editForm.productCode.trim() &&
       editingProduct.in_stock === editForm.inStock
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
@@ -174,6 +185,8 @@ export const AdminProductsPage = () => {
       name: '',
       categoryId: '',
       description: '',
+      size: '',
+      productCode: '',
       imageUrl: '',
       price: '',
       oldPrice: '',
@@ -235,6 +248,8 @@ export const AdminProductsPage = () => {
       price: String(product.price ?? 0),
       description: product.description ?? '',
       inStock: product.in_stock,
+      size: product.size ?? '',
+      productCode: product.product_code ?? '',
     })
     setError(null)
     setSuccess(null)
@@ -242,7 +257,7 @@ export const AdminProductsPage = () => {
 
   const cancelEdit = () => {
     setEditingId(null)
-    setEditForm({ price: '', description: '', inStock: true })
+    setEditForm({ price: '', description: '', inStock: true, size: '', productCode: '' })
   }
 
   const saveEdit = async (id: string) => {
@@ -257,6 +272,8 @@ export const AdminProductsPage = () => {
         price: Number(editForm.price || 0),
         description: editForm.description,
         inStock: editForm.inStock,
+        size: editForm.size,
+        productCode: editForm.productCode,
       }),
     })
 
@@ -322,6 +339,18 @@ export const AdminProductsPage = () => {
           />
           <input
             className={styles.formField}
+            placeholder="Код товара"
+            value={productForm.productCode}
+            onChange={(event) => setProductForm((prev) => ({ ...prev, productCode: event.target.value }))}
+          />
+          <input
+            className={styles.formField}
+            placeholder="Размер"
+            value={productForm.size}
+            onChange={(event) => setProductForm((prev) => ({ ...prev, size: event.target.value }))}
+          />
+          <input
+            className={styles.formField}
             placeholder="URL изображения"
             value={productForm.imageUrl}
             onChange={(event) => setProductForm((prev) => ({ ...prev, imageUrl: event.target.value }))}
@@ -376,7 +405,7 @@ export const AdminProductsPage = () => {
         <div className={styles.filters}>
           <input
             className={styles.searchField}
-            placeholder="Поиск товаров по названию, slug и категории"
+            placeholder="Поиск по названию, slug, категории, коду и размеру"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
           />
@@ -426,6 +455,9 @@ export const AdminProductsPage = () => {
                     {product.old_price ? ` (было ${formatMoney(product.old_price)})` : ''}
                   </p>
                   <p className={styles.manageMeta}>slug: {product.slug}</p>
+                  <p className={styles.manageMeta}>
+                    Код: {product.product_code || '—'} · Размер: {product.size || '—'}
+                  </p>
                   <p className={styles.descriptionPreview}>{truncateText(product.description, 130)}</p>
                   {editingId === product.id ? (
                     <div className={styles.editFields}>
@@ -440,6 +472,26 @@ export const AdminProductsPage = () => {
                           onChange={(event) =>
                             setEditForm((prev) => ({ ...prev, price: event.target.value }))
                           }
+                        />
+                      </div>
+                      <div className={styles.fieldGroup}>
+                        <label className={styles.fieldLabel}>Код товара</label>
+                        <input
+                          className={styles.formField}
+                          placeholder="Код товара"
+                          value={editForm.productCode}
+                          onChange={(event) =>
+                            setEditForm((prev) => ({ ...prev, productCode: event.target.value }))
+                          }
+                        />
+                      </div>
+                      <div className={styles.fieldGroup}>
+                        <label className={styles.fieldLabel}>Размер</label>
+                        <input
+                          className={styles.formField}
+                          placeholder="Размер"
+                          value={editForm.size}
+                          onChange={(event) => setEditForm((prev) => ({ ...prev, size: event.target.value }))}
                         />
                       </div>
                       <div className={styles.fieldGroup}>

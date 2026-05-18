@@ -31,6 +31,10 @@ export const ProductCard = ({ product, onQuickView }: ProductCardProps) => {
 
       <div className={styles.content}>
         <p className={styles.category}>{product.category}</p>
+        <p className={styles.meta}>
+          Код: {product.productCode || '—'}<br />
+          Размер: {product.size || '—'}
+        </p>
         <h3 className={styles.name} title={product.name}>
           {truncateText(product.name, 48)}
         </h3>

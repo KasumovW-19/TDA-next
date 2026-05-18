@@ -70,16 +70,23 @@
   padding: 0;
   display: grid;
   gap: 0.55rem;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 .manageItem {
+  position: relative;
   display: flex;
-  justify-content: space-between;
   gap: 0.6rem;
-  align-items: center;
-  border: 1px dashed var(--border);
+  align-items: flex-start;
+  border: 1px solid var(--border);
   border-radius: var(--radius-s);
-  padding: 0.55rem 0.65rem;
+  padding: 0.7rem 2.8rem 0.7rem 0.7rem;
+}
+
+.categoryInfo {
+  display: grid;
+  gap: 0.2rem;
+  min-width: 0;
 }
 
 .manageTitle {
@@ -91,6 +98,27 @@
   margin: 0.2rem 0 0;
   color: var(--text-secondary);
   font-size: 0.82rem;
+}
+
+.deleteButton {
+  position: absolute;
+  top: 0.45rem;
+  right: 0.45rem;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  border: 1px solid #f3b8b1;
+  background: #fff6f5;
+  color: #b42318;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.deleteButton:hover:not(:disabled) {
+  color: #912018;
+  border-color: #e38e83;
+  background: #ffe8e5;
 }
 
 @media (max-width: 900px) {

@@ -35,6 +35,9 @@ export const ProductQuickView = ({ product, onClose, onAddToCart }: ProductQuick
             <img className={styles.image} src={product.image} alt={product.name} />
             <div className={styles.details}>
               <p className={styles.category}>{product.category}</p>
+              <p className={styles.meta}>
+                Код товара: {product.productCode || '—'} · Размер: {product.size || '—'}
+              </p>
               <h3 className={styles.name}>{product.name}</h3>
               <p className={styles.description}>{product.description}</p>
               <p className={styles.availability}>

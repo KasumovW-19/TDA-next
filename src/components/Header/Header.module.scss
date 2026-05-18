@@ -139,6 +139,18 @@
   background: color-mix(in srgb, var(--accent) 7%, white);
 }
 
+.logoutButton {
+  color: #a12d2d;
+  border-color: #efc6c6;
+  background: #fff7f7;
+}
+
+.logoutButton:hover {
+  color: #842525;
+  border-color: #e6aaaa;
+  background: #ffecec;
+}
+
 .cartButton {
   width: 42px;
   height: 42px;

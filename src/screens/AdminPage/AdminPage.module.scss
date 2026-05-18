@@ -278,6 +278,40 @@
   font-size: 0.82rem;
 }
 
+.categoryTile {
+  position: relative;
+  align-items: flex-start;
+  border-style: solid;
+  padding-right: 2.8rem;
+}
+
+.categoryInfo {
+  display: grid;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.tileDeleteButton {
+  position: absolute;
+  top: 0.45rem;
+  right: 0.45rem;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  border: 1px solid #f3b8b1;
+  background: #fff6f5;
+  color: #b42318;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.tileDeleteButton:hover:not(:disabled) {
+  color: #912018;
+  border-color: #e38e83;
+  background: #ffe8e5;
+}
+
 .productLine {
   display: flex;
   align-items: center;

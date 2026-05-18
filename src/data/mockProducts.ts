@@ -119,7 +119,7 @@ const getProductImage = (name: string, fallback = 'Кованое огражде
   productImages.find((item) => item.name === fallback)?.image ??
   productImages[0].image
 
-export const mockProducts: Product[] = [
+const mockProductsBase: Omit<Product, 'size' | 'productCode'>[] = [
   {
     id: '1',
     name: 'Кованые ворота Верона',
@@ -457,3 +457,9 @@ export const mockProducts: Product[] = [
     inStock: true,
   },
 ]
+
+export const mockProducts: Product[] = mockProductsBase.map((product) => ({
+  ...product,
+  size: '',
+  productCode: '',
+}))

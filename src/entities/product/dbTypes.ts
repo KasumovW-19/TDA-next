@@ -4,6 +4,8 @@ export type ProductRow = {
     name: string
     slug: string
     category: string
+    size: string | null
+    product_code: string | null
     short_description: string | null
     description: string | null
     price: number | null

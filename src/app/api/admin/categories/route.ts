@@ -8,6 +8,13 @@ type CategoryPayload = {
   description?: string
 }
 
+const makeSlug = (value: string) =>
+  value
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9а-яё-]/gi, '')
+
 export async function GET() {
   const auth = await requireAdmin()
   if (!auth.ok) {
@@ -36,10 +43,11 @@ export async function POST(request: Request) {
 
   const body = (await request.json()) as CategoryPayload
   const name = body.name?.trim()
-  const slug = body.slug?.trim().toLowerCase()
+  const slugFromBody = body.slug?.trim().toLowerCase()
+  const slug = slugFromBody || makeSlug(name ?? '')
 
   if (!name || !slug) {
-    return NextResponse.json({ message: 'Укажите название и slug категории' }, { status: 400 })
+    return NextResponse.json({ message: 'Укажите название категории' }, { status: 400 })
   }
 
   const { data, error } = await supabaseAdmin

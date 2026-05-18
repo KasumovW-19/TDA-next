@@ -1,6 +1,6 @@
 "use client";
 
-import { Hammer, LogIn, LogOut, Menu, PhoneCall, ShoppingCart, X } from 'lucide-react'
+import { Hammer, LayoutDashboard, LogIn, LogOut, Menu, PhoneCall, ShoppingCart, X } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -111,10 +111,20 @@ export const Header = () => {
           </a>
 
           {isAdminAuthenticated ? (
-            <button type="button" className={styles.adminButton} onClick={() => void handleAdminLogout()}>
-              <LogOut size={15} />
-              <span>Выйти</span>
-            </button>
+            <>
+              <Link href="/admin" className={styles.adminButton}>
+                <LayoutDashboard size={15} />
+                <span>Админка</span>
+              </Link>
+              <button
+                type="button"
+                className={`${styles.adminButton} ${styles.logoutButton}`}
+                onClick={() => void handleAdminLogout()}
+              >
+                <LogOut size={15} />
+                <span>Выйти</span>
+              </button>
+            </>
           ) : (
             <Link href="/admin/login" className={styles.adminButton}>
               <LogIn size={15} />

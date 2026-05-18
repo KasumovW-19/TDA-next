@@ -21,7 +21,7 @@ const initialFilters: ProductFiltersState = {
   categories: [],
   maxPrice: 500,
   inStockOnly: false,
-  sort: 'price-asc',
+  sort: 'date-desc',
 }
 
 export const ProductsPage = () => {
@@ -108,6 +108,8 @@ export const ProductsPage = () => {
           return a.price - b.price
         case 'price-desc':
           return b.price - a.price
+        case 'date-desc':
+          return new Date(b.createdAt ?? 0).getTime() - new Date(a.createdAt ?? 0).getTime()
         default:
           return a.price - b.price
       }

@@ -3,7 +3,7 @@ import type { CSSProperties } from 'react'
 import type { ProductCategory } from '../../entities/product/types'
 import styles from './ProductFilters.module.scss'
 
-export type ProductSort = 'price-asc' | 'price-desc'
+export type ProductSort = 'price-asc' | 'price-desc' | 'date-desc'
 
 export interface ProductFiltersState {
   query: string
@@ -158,6 +158,7 @@ export const ProductFilters = ({
         >
           <option value="price-asc">Цена по возрастанию</option>
           <option value="price-desc">Цена по убыванию</option>
+          <option value="date-desc">Сначала новые</option>
         </select>
       </div>
     </aside>

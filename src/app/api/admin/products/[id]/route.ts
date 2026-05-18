@@ -6,6 +6,8 @@ type ProductPatchPayload = {
   price?: number
   description?: string
   inStock?: boolean
+  size?: string
+  productCode?: string
 }
 
 const parseBoolean = (value: unknown, fallback: boolean) => {
@@ -52,6 +54,8 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     description?: string | null
     short_description?: string | null
     in_stock?: boolean
+    size?: string
+    product_code?: string
   } = {}
 
   if (body.price !== undefined) {
@@ -72,6 +76,14 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     updates.in_stock = parseBoolean(body.inStock, true)
   }
 
+  if (body.size !== undefined) {
+    updates.size = body.size.trim()
+  }
+
+  if (body.productCode !== undefined) {
+    updates.product_code = body.productCode.trim()
+  }
+
   if (Object.keys(updates).length === 0) {
     return NextResponse.json({ message: 'Нет данных для обновления' }, { status: 400 })
   }
@@ -81,7 +93,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     .update(updates)
     .eq('id', id)
     .select(
-      'id, name, slug, category, category_id, description, price, old_price, in_stock, is_popular, is_new, image_url, is_active, created_at',
+      'id, name, slug, category, category_id, description, size, product_code, price, old_price, in_stock, is_popular, is_new, image_url, is_active, created_at',
     )
     .single()
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState, type FormEvent } from 'react'
+import { X } from 'lucide-react'
 import { AdminNav } from '@/components/AdminNav/AdminNav'
 import { Button } from '@/components/Button/Button'
 import styles from './AdminCategoriesPage.module.scss'
@@ -20,14 +21,7 @@ export const AdminCategoriesPage = () => {
   const [success, setSuccess] = useState<string | null>(null)
   const [query, setQuery] = useState('')
   const [categories, setCategories] = useState<Category[]>([])
-  const [form, setForm] = useState({ name: '', slug: '', description: '' })
-
-  const makeSlug = (value: string) =>
-    value
-      .toLowerCase()
-      .trim()
-      .replace(/\s+/g, '-')
-      .replace(/[^a-z0-9а-яё-]/gi, '')
+  const [form, setForm] = useState({ name: '', description: '' })
 
   const loadCategories = async () => {
     setIsLoading(true)
@@ -77,7 +71,7 @@ export const AdminCategoriesPage = () => {
         throw new Error(result.message || 'Не удалось создать категорию')
       }
 
-      setForm({ name: '', slug: '', description: '' })
+      setForm({ name: '', description: '' })
       await loadCategories()
       setSuccess('Категория успешно добавлена')
     } catch (submitError) {
@@ -119,23 +113,7 @@ export const AdminCategoriesPage = () => {
             className={styles.formField}
             placeholder="Название категории"
             value={form.name}
-            onChange={(event) =>
-              setForm((prev) => {
-                const name = event.target.value
-                return {
-                  ...prev,
-                  name,
-                  slug: prev.slug ? prev.slug : makeSlug(name),
-                }
-              })
-            }
-            required
-          />
-          <input
-            className={styles.formField}
-            placeholder="Slug"
-            value={form.slug}
-            onChange={(event) => setForm((prev) => ({ ...prev, slug: makeSlug(event.target.value) }))}
+            onChange={(event) => setForm((prev) => ({ ...prev, name: event.target.value }))}
             required
           />
           <input
@@ -163,17 +141,19 @@ export const AdminCategoriesPage = () => {
         <ul className={styles.manageList}>
           {filteredCategories.map((category) => (
             <li key={category.id} className={styles.manageItem}>
-              <div>
+              <div className={styles.categoryInfo}>
                 <p className={styles.manageTitle}>{category.name}</p>
-                <p className={styles.manageSub}>/{category.slug}</p>
+                <p className={styles.manageSub}>{category.description || 'Описание не добавлено'}</p>
               </div>
-              <Button
-                variant="ghost"
+              <button
+                type="button"
+                className={styles.deleteButton}
                 onClick={() => void remove(category.id)}
                 disabled={deletingId === category.id}
+                aria-label="Удалить категорию"
               >
-                {deletingId === category.id ? 'Удаление...' : 'Удалить'}
-              </Button>
+                <X size={16} />
+              </button>
             </li>
           ))}
           {!isLoading && filteredCategories.length === 0 && (
